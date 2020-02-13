@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:lura_dentist_webapp/models/ResponseMessageModel.dart';
+import 'package:lura_dentist_webapp/models/GetDataResponseModel.dart';
+import 'package:lura_dentist_webapp/services/NetworkCommon.dart';
 import 'package:lura_dentist_webapp/utils/RestEndpoints.dart';
 
 class GraphDataProvider with ChangeNotifier{
@@ -25,8 +28,12 @@ class GraphDataProvider with ChangeNotifier{
     }
   }
 
-  void getDataSuccess(result){
-    print("Get data success ${result.toString()}");
+  void getDataSuccess(r){
+    Map<String, dynamic> result = new NetworkCommon().decodeResp(r);
+    print("Get data success");
+//    print("Get data success ${result}");
+    GetDataResponseModel response = GetDataResponseModel.fromJson(result);
+    print("Row count: ${response.responseMessageModel.rowCount}");
     loadingData = false;
     notifyListeners();
   }
