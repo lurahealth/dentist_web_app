@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lura_dentist_webapp/models/ResponseMessageModel.dart';
+import 'package:lura_dentist_webapp/models/AreaChartData.dart';
 import 'package:lura_dentist_webapp/models/GetDataResponseModel.dart';
 import 'package:lura_dentist_webapp/services/NetworkCommon.dart';
 import 'package:lura_dentist_webapp/utils/RestEndpoints.dart';
@@ -9,6 +9,8 @@ class GraphDataProvider with ChangeNotifier{
   DateTime sensorDataFromDate = now.subtract(Duration(days: 7));
   DateTime sensorDataToDate = now;
   String deviceId = "Lura_Health_Rakshak_1";
+  List<AreaChartData> pHData = <AreaChartData>[];
+  int animationDuration = 500;
 
   bool error = false;
   String errorMessage = "";
@@ -31,9 +33,9 @@ class GraphDataProvider with ChangeNotifier{
   void getDataSuccess(r){
     Map<String, dynamic> result = new NetworkCommon().decodeResp(r);
     print("Get data success");
-//    print("Get data success ${result}");
     GetDataResponseModel response = GetDataResponseModel.fromJson(result);
     print("Row count: ${response.responseMessageModel.rowCount}");
+    pHData = response.responseMessageModel.rows;
     loadingData = false;
     notifyListeners();
   }
