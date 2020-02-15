@@ -25,3 +25,6 @@ const String NEW_PASSWORD_REQUIRED = "New Password required";
 const String PASSWORD_CHANGE_SUCCESS = "password_reset_success";
 const String PASSWORD_CHANGE_FAILED = "password_reset_failed";
 const String PASSWORD_RESET_FAILED = "passowrd_rest_dailed";
+
+// Password regex
+const String PASSWORD_REGEX = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$';

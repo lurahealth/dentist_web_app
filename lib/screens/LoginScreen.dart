@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/providers/LoginProvider.dart';
+import 'package:lura_dentist_webapp/utils/StyleUtils.dart';
+import 'package:lura_dentist_webapp/widgets/loginscreen_widgets/LoginSubWidget.dart';
+import 'package:lura_dentist_webapp/widgets/loginscreen_widgets/NewUserPasswordResetSubWidget.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -15,8 +18,56 @@ class LoginScreen extends StatelessWidget {
 class LoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+
+
     LoginProvider provider = Provider.of<LoginProvider>(context);
-    provider.loginUser();
-    return Container();
+
+    final List<Widget> _widgetOptions = <Widget>[
+      LoginSubWidget(provider),
+      NewUserPasswordResetSubWidget(provider)
+    ];
+
+    return Scaffold(
+      backgroundColor: Colors.blue[50],
+      body: Padding(
+        padding: EdgeInsets.only(top: 60.0, bottom: 60.0, left: 120.0, right: 120.0),
+        child: Card(
+          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0)),
+          elevation: 5.0,
+          child: Container(
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  flex: 3,
+                  child: Center(
+                    child: Container(
+                      color: LURA_BLUE,
+                      child: Image.asset('assets/splash_screen.png'),
+                      constraints: BoxConstraints.expand(),
+                    ),
+                  ),
+                ),
+                Flexible(
+                    flex: 6,
+                    child: _widgetOptions.elementAt(provider.displayWidget)
+                )
+              ],
+            ),
+//            child: Row(
+//              children: <Widget>[
+//                Container(
+//                  width: MediaQuery.of(context).size.width /3.3,
+//                  height: MediaQuery.of(context).size.height,
+//                  color: LURA_BLUE,
+//                  child: Image.asset('assets/splash_screen.png'),
+//                ),
+//
+//              ],
+//            ),
+          ),
+        ),
+      ),
+    );
   }
 }
