@@ -1,65 +1,73 @@
 import 'dart:convert';
-import 'dart:math';
-
-import 'package:amazon_cognito_identity_dart/cognito.dart';
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/services.dart';
 import 'package:lura_dentist_webapp/models/CognitoConfig.dart';
 import 'package:lura_dentist_webapp/utils/StringUtils.dart';
 
 class CognitoUserPoolProvider{
-  static CognitoUserPool _cognitoUserPool;
-  static final CognitoUserPoolProvider cognitoUserPoolProvider = CognitoUserPoolProvider._();
-  CognitoUserSession session;
 
-  CognitoUserPoolProvider._();
+  // global instance of CognitoUserSession and CognitoUserPool
+  CognitoUserSession _session;
+  CognitoUserPool _cognitoUserPool;
+  CognitoUser _cognitoUser;
 
-  Future<CognitoUserPool> get cognitoUserPool async {
-    if (_cognitoUserPool != null) {
-      return _cognitoUserPool;
-    } else {
-      return await initCognitoUserPool();
+  CognitoUserPoolProvider._privateConstructor();
+
+  static final CognitoUserPoolProvider _instance = CognitoUserPoolProvider._privateConstructor();
+
+  static CognitoUserPoolProvider get instance { return _instance;}
+
+
+  Future<CognitoUserPool> get userPool async {
+    if(_cognitoUserPool == null) {
+      String configString = await rootBundle.loadString('assets/config.json');
+      print("Config string $configString");
+      CognitoConfig config = CognitoConfig.fromJson(json.decode(configString));
+
+      _cognitoUserPool = CognitoUserPool(config.poolId, config.clientId);
     }
+
+    return _cognitoUserPool;
   }
 
-  Future<CognitoUserPool> initCognitoUserPool() async {
-    String configString = await rootBundle.loadString('assets/config.json');
-    CognitoConfig config = CognitoConfig.fromJson(json.decode(configString));
+  CognitoUser getUser(String email, CognitoUserPool userPool){
+    if(_cognitoUser == null){
+      _cognitoUser = CognitoUser(email, userPool);
+    }
 
-    return CognitoUserPool(config.poolId,config.clientId);
+    return _cognitoUser;
   }
 
   Future<String> loginUser(String email, String password) async{
-    final userPool = await cognitoUserPool;
-    final CognitoUser user = CognitoUser(email, userPool);
+    print("Loggins in user Email: $email Password: $password");
+    final CognitoUserPool userPool = await this.userPool;
+    final CognitoUser user = getUser(email, userPool);
     final AuthenticationDetails authDetails = AuthenticationDetails(
                                                     username: email,
                                                     password: password
                                                 );
     try{
-      session = await user.authenticateUser(authDetails);
+      _session = await user.authenticateUser(authDetails);
     }on CognitoUserNewPasswordRequiredException catch (e) {
-      return FORCE_PASSWORD_RESET + e.message;
+      return e.message;
+    } on Error catch (e){
+      return "Unknows error ${e.toString()}";
     }
 
     return USER_LOGGED_IN;
   }
 
-  Future<String> resetPassword(String email, String oldPassword,
-      String newPassword) async {
-    final userPool = await cognitoUserPool;
-    final CognitoUser user = CognitoUser(email, userPool);
-    bool passwordChanged;
+  Future<String> newUserPasswordReset(String email, String newPassword) async {
+    print("Resetting password");
+    final CognitoUserPool userPool = await this.userPool;
+    final CognitoUser user = getUser(email, userPool);
     try {
-      passwordChanged = await user.changePassword(
-          'oldPassword', 'newPassword');
+      _session = await user.sendNewPasswordRequiredAnswer(newPassword);
     } catch (e) {
-      return PASSWORD_CHANGE_FAILED + e.toString();
+      return PASSWORD_RESET_FAILED +" "+e.toString();
     }
 
-    if (passwordChanged)
-      return PASSWORD_CHANGE_SUCCESS;
-    else
-      return PASSWORD_CHANGE_FAILED;
+    return PASSWORD_CHANGE_SUCCESS;
   }
 
 

@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
             primaryColor: LURA_BLUE,
             accentColor: LURA_ORANGE
         ),
-        initialRoute: GRAPH_SCREEN,
+        initialRoute: LOGIN_SCREEN,
         onGenerateRoute: RouteGenerator.generateRoute
     );
   }

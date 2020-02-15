@@ -24,11 +24,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   provider: 4.0.1
-  syncfusion_flutter_charts: 17.4.46
   intl: 0.16.1
   dio: 3.0.8
   flutter_datetime_picker: 1.3.4
-  amazon_cognito_identity_dart: 0.0.22
+  amazon_cognito_identity_dart_2: 0.1.9
 
 dev_dependencies:
   flutter_test:

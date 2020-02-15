@@ -1,7 +1,8 @@
 // Route Names
 import 'package:intl/intl.dart';
 
-const GRAPH_SCREEN = "/";
+const GRAPH_SCREEN = "/graphScreen";
+const LOGIN_SCREEN = "/";
 
 // // columns names
 final String ROW_ID = "row_id"; // Primary key, auto-incremented
@@ -20,6 +21,7 @@ DateFormat fromJson = DateFormat("yyyy-MM-dd'T'");
 // Cognito statuses
 const String USER_LOGGED_IN = "user_logged_in";
 const String USER_LOGIN_FAILED = "user_login_failed";
-const String FORCE_PASSWORD_RESET = "force_password_reset";
+const String NEW_PASSWORD_REQUIRED = "New Password required";
 const String PASSWORD_CHANGE_SUCCESS = "password_reset_success";
 const String PASSWORD_CHANGE_FAILED = "password_reset_failed";
+const String PASSWORD_RESET_FAILED = "passowrd_rest_dailed";
