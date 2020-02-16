@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/providers/LoginProvider.dart';
+import 'package:lura_dentist_webapp/utils/StringUtils.dart';
 import 'package:lura_dentist_webapp/utils/StyleUtils.dart';
 import 'package:lura_dentist_webapp/widgets/LoadingWidget.dart';
 
@@ -13,7 +14,7 @@ class LoginSubWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final title = Text(
-      "Log in",
+      LOGIN_SCREEN_TITLE,
       style: TextStyle(
           fontWeight: FontWeight.bold, fontSize: 30, color: LURA_BLUE),
     );
@@ -27,8 +28,8 @@ class LoginSubWidget extends StatelessWidget {
               prefixIcon: Icon(
                 Icons.alternate_email,
               ),
-              hintText: "Enter your email address",
-              labelText: "Email"
+              hintText: LOGIN_SCREEN_EMAIL_HINT,
+              labelText: LOGIN_SCREEN_EMAIL_LABEL
           ),
         ),
         Visibility(
@@ -45,7 +46,7 @@ class LoginSubWidget extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    "Please enter a valid email address!",
+                    LOGIN_SCREEN_EMAIL_ERROR,
                     style: ERROR_TEXT,
                   ),
                 ],
@@ -66,9 +67,10 @@ class LoginSubWidget extends StatelessWidget {
               suffixIcon: IconButton(
                 onPressed: provider.togglePasswordVisibility,
                 icon: provider.passwordIcon,
+                color: LURA_LIGHT_ORANGE,
               ),
-              hintText: "Enter your password",
-              labelText: "Password"),
+              hintText: LOGIN_SCREEN_PASSWORD_HINT,
+              labelText: LOGIN_SCREEN_PASSWORD_LABEL),
 
         ),
         Visibility(
@@ -85,7 +87,7 @@ class LoginSubWidget extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    "Please enter your password to login!",
+                    LOGIN_SCREEN_PASSWORD_ERROR,
                     style: ERROR_TEXT,
                   ),
                 ],
@@ -119,7 +121,7 @@ class LoginSubWidget extends StatelessWidget {
             ),
             SizedBox(width: 10,),
             Text(
-              "Log in now",
+              LOGIN_BUTTON_TEST,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white,),
             ),
@@ -164,7 +166,7 @@ class LoginSubWidget extends StatelessWidget {
               ),
               Visibility(
                 visible: provider.loading,
-                  child: LoadingWidget("Loggin in", LURA_BLUE)
+                  child: LoadingWidget(LOGIN_LOADING_MESSAGE, LURA_BLUE)
               ),
             ],
           ),

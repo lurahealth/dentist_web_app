@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:lura_dentist_webapp/providers/LoginProvider.dart';
+import 'package:lura_dentist_webapp/providers/PasswordResetProvider.dart';
+import 'package:lura_dentist_webapp/utils/StringUtils.dart';
 import 'package:lura_dentist_webapp/utils/StyleUtils.dart';
-
+import 'package:provider/provider.dart';
 import '../LoadingWidget.dart';
 
-class NewUserPasswordResetSubWidget extends StatelessWidget {
+class PasswordResetScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => PasswordResetProvider(),
+      child: PasswordResetWidget(),
+    );
+  }
+}
 
-  final LoginProvider provider;
 
-  NewUserPasswordResetSubWidget(this.provider);
+class PasswordResetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
 
+    final PasswordResetProvider provider = Provider.of<PasswordResetProvider>(context);
+
     final title = Text(
-      "New User Password Reset",
+      PASSWORD_RESET_SCREEN_TITLE,
       style: TextStyle(
           fontWeight: FontWeight.bold, fontSize: 30, color: LURA_BLUE),
     );
 
     final subTitle = Text(
-      "New User are required to rest their password when they login for the first time",
+      PASSWORD_RESET_SCREEN_SUB_TITLE,
       style: TextStyle(fontSize: 20, color: LURA_BLUE),
     );
 
@@ -28,7 +38,7 @@ class NewUserPasswordResetSubWidget extends StatelessWidget {
       children: <Widget>[
         TextField(
           obscureText: !provider.showPassword,
-          onChanged: provider.newUserPasswordCheck,
+          onChanged: provider.newPasswordCheck,
           decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.vpn_key,
@@ -37,12 +47,12 @@ class NewUserPasswordResetSubWidget extends StatelessWidget {
                 onPressed: provider.togglePasswordVisibility,
                 icon: provider.passwordIcon,
               ),
-              hintText: "Enter your new password",
-              labelText: "Password"),
+              hintText: PASSWORD_RESET_SCREEN_NEW_PASSWORD_HINT,
+              labelText: PASSWORD_RESET_SCREEN_NEW_PASSWORD_LABEL),
 
         ),
         Visibility(
-            visible: !provider.passwordValid,
+            visible: !provider.newPasswordValid,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: Row(
@@ -55,7 +65,7 @@ class NewUserPasswordResetSubWidget extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    "Please enter your password to login!",
+                    PASSWORD_RESET_SCREEN_NEW_PASSWORD_ERROR,
                     style: ERROR_TEXT,
                   ),
                 ],
@@ -68,21 +78,21 @@ class NewUserPasswordResetSubWidget extends StatelessWidget {
       children: <Widget>[
         TextField(
           obscureText: !provider.showPassword,
-          onChanged: provider.checkLoginPassword,
+          onChanged: provider.confirmNewPasswordCheck,
           decoration: InputDecoration(
               prefixIcon: Icon(
-                Icons.vpn_key,
+                Icons.lock_outline,
               ),
               suffixIcon: IconButton(
                 onPressed: provider.togglePasswordVisibility,
                 icon: provider.passwordIcon,
               ),
-              hintText: "Re-Enter your password",
-              labelText: "Password"),
+              hintText: PASSWORD_RESET_SCREEN_CONFIRM_PASSWORD_HINT,
+              labelText: PASSWORD_RESET_SCREEN_CONFIRM_PASSWORD_LABEL),
 
         ),
         Visibility(
-            visible: !provider.passwordValid,
+            visible: !provider.confirmNewPasswordValid,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: Row(
@@ -95,7 +105,7 @@ class NewUserPasswordResetSubWidget extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    "Please enter your password to login!",
+                    PASSWORD_RESET_SCREEN_CONFIRM_PASSWORD_ERROR,
                     style: ERROR_TEXT,
                   ),
                 ],
@@ -111,7 +121,7 @@ class NewUserPasswordResetSubWidget extends StatelessWidget {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () => provider.newUserPasswordRest(context),
+        onPressed: () => provider.resetPassword(context),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -143,7 +153,7 @@ class NewUserPasswordResetSubWidget extends StatelessWidget {
               children: <Widget>[
                 title,
                 Center(child: subTitle),
-                SizedBox(height: 25,),
+                SizedBox(height: 40,),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: passwordTextField,
@@ -152,13 +162,14 @@ class NewUserPasswordResetSubWidget extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: confirmPasswordTextField,
                 ),
+                SizedBox(height: 40,),
                 resetPasswordButton
               ],
             ),
           ),
           Visibility(
               visible: provider.loading,
-              child: LoadingWidget("Setting new password", LURA_BLUE)
+              child: LoadingWidget(PASSWORD_RESET_SCREEN_LOADING_MESSAGE, LURA_BLUE)
           ),
         ],
       ),),),);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/services.dart';
 import 'package:lura_dentist_webapp/models/CognitoConfig.dart';
@@ -30,7 +31,7 @@ class CognitoUserPoolProvider{
     return _cognitoUserPool;
   }
 
-  CognitoUser getUser(String email, CognitoUserPool userPool){
+  CognitoUser getUser(CognitoUserPool userPool,{String email}){
     if(_cognitoUser == null){
       _cognitoUser = CognitoUser(email, userPool);
     }
@@ -41,7 +42,7 @@ class CognitoUserPoolProvider{
   Future<String> loginUser(String email, String password) async{
     print("Loggins in user Email: $email Password: $password");
     final CognitoUserPool userPool = await this.userPool;
-    final CognitoUser user = getUser(email, userPool);
+    final CognitoUser user = getUser(userPool, email: email);
     final AuthenticationDetails authDetails = AuthenticationDetails(
                                                     username: email,
                                                     password: password
@@ -57,10 +58,10 @@ class CognitoUserPoolProvider{
     return USER_LOGGED_IN;
   }
 
-  Future<String> newUserPasswordReset(String email, String newPassword) async {
+  Future<String> newUserPasswordReset(String newPassword) async {
     print("Resetting password");
     final CognitoUserPool userPool = await this.userPool;
-    final CognitoUser user = getUser(email, userPool);
+    final CognitoUser user = getUser(userPool);
     try {
       _session = await user.sendNewPasswordRequiredAnswer(newPassword);
     } catch (e) {

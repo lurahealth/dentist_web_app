@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/providers/LoginProvider.dart';
 import 'package:lura_dentist_webapp/utils/StyleUtils.dart';
 import 'package:lura_dentist_webapp/widgets/loginscreen_widgets/LoginSubWidget.dart';
-import 'package:lura_dentist_webapp/widgets/loginscreen_widgets/NewUserPasswordResetSubWidget.dart';
+import 'package:lura_dentist_webapp/widgets/loginscreen_widgets/PasswordResetScreen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -25,7 +25,7 @@ class LoginWidget extends StatelessWidget {
 
     final List<Widget> _widgetOptions = <Widget>[
       LoginSubWidget(provider),
-      NewUserPasswordResetSubWidget(provider)
+      PasswordResetScreen()
     ];
 
     return Scaffold(
@@ -54,17 +54,6 @@ class LoginWidget extends StatelessWidget {
                 )
               ],
             ),
-//            child: Row(
-//              children: <Widget>[
-//                Container(
-//                  width: MediaQuery.of(context).size.width /3.3,
-//                  height: MediaQuery.of(context).size.height,
-//                  color: LURA_BLUE,
-//                  child: Image.asset('assets/splash_screen.png'),
-//                ),
-//
-//              ],
-//            ),
           ),
         ),
       ),

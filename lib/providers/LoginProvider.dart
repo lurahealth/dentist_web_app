@@ -48,10 +48,6 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  void passwordResetFailed(error) {
-    print("Password rest failed ${error.toString()}");
-  }
-
   void loginFailed(error) {
     print("Error logging in: ${error.toString()}");
     loginError = true;
@@ -59,8 +55,6 @@ class LoginProvider with ChangeNotifier {
     loading = false;
     notifyListeners();
   }
-
-
 
   void togglePasswordVisibility() {
     if (showPassword) {
@@ -77,20 +71,6 @@ class LoginProvider with ChangeNotifier {
   checkLoginFields() {
     checkEmail(userEmail);
     checkLoginPassword(password);
-  }
-
-  newUserPasswordRest(BuildContext context) {
-    print("New user password rest");
-    checkNewUserPasswordFields();
-
-    if (newPasswordValid && confirmNewPasswordValid) {
-      CognitoUserPoolProvider.instance
-          .newUserPasswordReset(userEmail, newPassword)
-          .then((response) {
-        print("Password reset succcess $response");
-        Navigator.popAndPushNamed(context, GRAPH_SCREEN);
-      }, onError: passwordResetFailed);
-    }
   }
 
   checkEmail(String value) {
@@ -115,35 +95,5 @@ class LoginProvider with ChangeNotifier {
     }
 
     notifyListeners();
-  }
-
-  void newUserPasswordCheck(String value) {
-      RegExp passwordCheck = RegExp(PASSWORD_REGEX);
-      if(value != null && value.length > 0 && passwordCheck.hasMatch(value)){
-        newPassword = value.trim();
-      }else{
-        newPassword = null;
-        newPasswordValid = false;
-      }
-
-      notifyListeners();
-  }
-
-  void newUserConfirmPasswordCheck(String value) {
-
-    if(value != null && value.length > 0 && value == newPassword ){
-      confirmNewPasswordValid = true;
-      confirmNewPassword = value.trim();
-    }else{
-      confirmNewPasswordValid = false;
-      confirmNewPassword = null;
-    }
-
-    notifyListeners();
-  }
-
-  void checkNewUserPasswordFields() {
-    newUserPasswordCheck(newPassword);
-    newUserConfirmPasswordCheck(confirmNewPassword);
   }
 }
