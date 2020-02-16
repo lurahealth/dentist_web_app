@@ -44,7 +44,11 @@ const String PASSWORD_RESET_SCREEN_TITLE =  "Password Reset";
 const String PASSWORD_RESET_SCREEN_SUB_TITLE = "Your password has expired and needs to be reset";
 const String PASSWORD_RESET_SCREEN_NEW_PASSWORD_LABEL = "New Password";
 const String PASSWORD_RESET_SCREEN_NEW_PASSWORD_HINT = "Please enter a new password!";
-const String PASSWORD_RESET_SCREEN_NEW_PASSWORD_ERROR = "Please enter a new password!";
+const String PASSWORD_RESET_SCREEN_NEW_PASSWORD_ERROR = "Password need to container atleast \n "
+                                                        "1 upper case charecter \n "
+                                                        "1 lower case charecter \n "
+                                                        "1 number \n "
+                                                        "1 special charecter (@\$!%*-?&^~)";
 const String PASSWORD_RESET_SCREEN_CONFIRM_PASSWORD_HINT = "Re-Enter your password";
 const String PASSWORD_RESET_SCREEN_CONFIRM_PASSWORD_LABEL = "Confirm Password";
 const String PASSWORD_RESET_SCREEN_CONFIRM_PASSWORD_ERROR = "Passwords do not match!";

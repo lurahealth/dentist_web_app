@@ -34,7 +34,11 @@ class PasswordResetProvider with ChangeNotifier {
   void newPasswordCheck(String value) {
     value = value.trim();
     RegExp passwordCheck = RegExp(PASSWORD_REGEX);
+//    if(passwordCheck.hasMatch(value)){
+//      print("Regular expressiong has match!");
+//    }
     if (value != null && value.length > 0 && passwordCheck.hasMatch(value)) {
+      newPasswordValid = true;
       newPassword = value;
     } else {
       newPassword = null;
