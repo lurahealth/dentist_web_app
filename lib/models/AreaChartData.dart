@@ -1,7 +1,7 @@
 import 'package:lura_dentist_webapp/utils/StringUtils.dart';
 
 class AreaChartData{
-  double dataReading;
+  num dataReading;
   DateTime timeStamp;
 
   AreaChartData(this.dataReading, this.timeStamp);

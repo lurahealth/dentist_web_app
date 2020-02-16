@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lura_dentist_webapp/models/AreaChartData.dart';
 import 'package:lura_dentist_webapp/models/GetDataResponseModel.dart';
+import 'package:lura_dentist_webapp/models/ResponseMessageModel.dart';
 import 'package:lura_dentist_webapp/services/NetworkCommon.dart';
 import 'package:lura_dentist_webapp/utils/RestEndpoints.dart';
 
@@ -11,6 +12,9 @@ class GraphDataProvider with ChangeNotifier{
   String deviceId = "Lura_Health_Rakshak_1";
   List<AreaChartData> pHData = <AreaChartData>[];
   int animationDuration = 500;
+  int minPh;
+  int maxPh;
+  int averagePh;
 
   bool error = false;
   String errorMessage = "";
@@ -22,7 +26,7 @@ class GraphDataProvider with ChangeNotifier{
     if(!dataLoaded){
       dataLoaded = true;
       loadingData = true;
-      //notifyListeners();
+      notifyListeners();
 
       getPastSensorReadings(
           deviceId, sensorDataFromDate, sensorDataToDate)
@@ -34,8 +38,12 @@ class GraphDataProvider with ChangeNotifier{
     Map<String, dynamic> result = new NetworkCommon().decodeResp(r);
     print("Get data success");
     GetDataResponseModel response = GetDataResponseModel.fromJson(result);
+    ResponseMessageModel responseMessage = response.responseMessageModel;
     print("Row count: ${response.responseMessageModel.rowCount}");
-    pHData = response.responseMessageModel.rows;
+    pHData = responseMessage.rows;
+    minPh = responseMessage.min;
+    maxPh = responseMessage.max;
+    averagePh = responseMessage.average;
     loadingData = false;
     notifyListeners();
   }

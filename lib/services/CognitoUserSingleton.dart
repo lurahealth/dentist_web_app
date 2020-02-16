@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/services.dart';
 import 'package:lura_dentist_webapp/models/CognitoConfig.dart';
@@ -37,6 +36,11 @@ class CognitoUserPoolProvider{
     }
 
     return _cognitoUser;
+  }
+
+  String get token {
+    print(_session.idToken.getExpiration());
+    return _session.idToken.getJwtToken();
   }
 
   Future<String> loginUser(String email, String password) async{
