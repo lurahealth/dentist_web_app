@@ -4,18 +4,17 @@ import 'package:flutter/services.dart';
 import 'package:lura_dentist_webapp/models/CognitoConfig.dart';
 import 'package:lura_dentist_webapp/utils/StringUtils.dart';
 
-class CognitoUserPoolProvider{
+class CognitoUserSingleton{
 
-  // global instance of CognitoUserSession and CognitoUserPool
   CognitoUserSession _session;
   CognitoUserPool _cognitoUserPool;
   CognitoUser _cognitoUser;
 
-  CognitoUserPoolProvider._privateConstructor();
+  CognitoUserSingleton._privateConstructor();
 
-  static final CognitoUserPoolProvider _instance = CognitoUserPoolProvider._privateConstructor();
+  static final CognitoUserSingleton _instance = CognitoUserSingleton._privateConstructor();
 
-  static CognitoUserPoolProvider get instance { return _instance;}
+  static CognitoUserSingleton get instance { return _instance;}
 
 
   Future<CognitoUserPool> get userPool async {

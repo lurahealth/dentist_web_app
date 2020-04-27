@@ -57,7 +57,7 @@ class PasswordResetProvider with ChangeNotifier {
     checkFields();
     if (newPasswordValid && confirmNewPasswordValid) {
       print("Resetting password");
-      CognitoUserPoolProvider.instance.newUserPasswordReset(newPassword).then(
+      CognitoUserSingleton.instance.newUserPasswordReset(newPassword).then(
           (response) {
         print("Password reset succcess $response");
         Navigator.popAndPushNamed(context, GRAPH_SCREEN);

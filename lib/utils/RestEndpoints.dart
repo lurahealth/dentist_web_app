@@ -17,6 +17,6 @@ Future getPastSensorReadings(String deviceId,
   }
 
   return await new NetworkCommon()
-      .dio
-      .get(URL, queryParameters: queryParameters);
+                    .dio
+                    .get(URL, queryParameters: queryParameters);
 }

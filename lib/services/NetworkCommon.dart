@@ -36,7 +36,7 @@ class NetworkCommon {
     // handle timeouts
     dio.options.connectTimeout = 20000; //5s
     dio.options.receiveTimeout = 20000;
-    dio.options.headers = {"Authorization":"Bearer ${CognitoUserPoolProvider.instance.token}"};
+    dio.options.headers = {"Authorization":"Bearer ${CognitoUserSingleton.instance.token}"};
     return dio;
   }
 }

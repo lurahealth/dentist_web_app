@@ -31,7 +31,7 @@ class LoginProvider with ChangeNotifier {
       loading = true;
       notifyListeners();
 
-      CognitoUserPoolProvider.instance
+      CognitoUserSingleton.instance
           .loginUser(userEmail, password)
           .then((response)
       {
