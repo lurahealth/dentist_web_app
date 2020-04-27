@@ -19,11 +19,10 @@ class CognitoUserSingleton{
 
   Future<CognitoUserPool> get userPool async {
     if(_cognitoUserPool == null) {
-      String configString = await rootBundle.loadString('assets/config.json');
-      print("Config string $configString");
-      CognitoConfig config = CognitoConfig.fromJson(json.decode(configString));
-
-      _cognitoUserPool = CognitoUserPool(config.poolId, config.clientId);
+      _cognitoUserPool = new CognitoUserPool(
+        'us-east-1_w748gFhji',
+        '413vbjt1uflp1iborqem06e572',
+      );
     }
 
     return _cognitoUserPool;
@@ -38,7 +37,7 @@ class CognitoUserSingleton{
   }
 
   String get token {
-    print(_session.idToken.getExpiration());
+    print(_session.idToken.getJwtToken());
     return _session.idToken.getJwtToken();
   }
 
@@ -73,6 +72,4 @@ class CognitoUserSingleton{
 
     return PASSWORD_CHANGE_SUCCESS;
   }
-
-
 }
