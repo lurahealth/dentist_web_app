@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/providers/GraphDataProvider.dart';
+import 'package:lura_dentist_webapp/providers/NewPatinetProvider.dart';
+import 'package:lura_dentist_webapp/screens/NewPatinetScreen.dart';
+import 'package:lura_dentist_webapp/utils/StringUtils.dart';
 import 'package:lura_dentist_webapp/utils/StyleUtils.dart';
 import 'package:lura_dentist_webapp/widgets/LoadingWidget.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
@@ -42,23 +45,33 @@ class GraphWidget extends StatelessWidget {
                         child: StatsWidget(provider)
                     ),
                   ),
-                  MaterialButton(
-                      onPressed: () async {
-                        final List<DateTime> picked = await DateRagePicker.showDatePicker(
-                            context: context,
-                            initialFirstDate: new DateTime.now(),
-                            initialLastDate: (new DateTime.now()).add(new Duration(days: 7)),
-                            firstDate: new DateTime(2015),
-                            lastDate: new DateTime(2025)
-                        );
-                        if (picked != null && picked.length == 2) {
-                          provider.sensorDataFromDate = picked[0];
-                          provider.sensorDataToDate = picked[1];
-                          provider.dataLoaded = false;
-                          provider.getData();
-                        }
-                      },
-                      child: new Text("Pick date range")
+                  Row(
+                    children: <Widget>[
+                      MaterialButton(
+                          onPressed: () async {
+                            final List<DateTime> picked = await DateRagePicker.showDatePicker(
+                                context: context,
+                                initialFirstDate: new DateTime.now(),
+                                initialLastDate: (new DateTime.now()).add(new Duration(days: 7)),
+                                firstDate: new DateTime(2015),
+                                lastDate: new DateTime(2025)
+                            );
+                            if (picked != null && picked.length == 2) {
+                              provider.sensorDataFromDate = picked[0];
+                              provider.sensorDataToDate = picked[1];
+                              provider.dataLoaded = false;
+                              provider.getData();
+                            }
+                          },
+                          child: new Text("Pick date range")
+                      ),
+                      MaterialButton(
+                          onPressed: () {
+                            _showNewPatientsDialog(context);
+                            } ,
+                          child: new Text("New patinet")
+                      )
+                    ],
                   )
                 ],
               ),
@@ -72,4 +85,18 @@ class GraphWidget extends StatelessWidget {
       ),
     );
   }
+
+  Future _showNewPatientsDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return ChangeNotifierProvider(
+            create: (_) => NewPatientProvider() ,
+            child: NewPatientDialog(),
+          );
+        });
+  }
+
+
 }

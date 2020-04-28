@@ -72,4 +72,24 @@ class CognitoUserSingleton{
 
     return PASSWORD_CHANGE_SUCCESS;
   }
+
+  Future<CognitoUser> registerNewPatient(String email, String patientName) async {
+    final CognitoUserPool userPool = await this.userPool;
+    final userAttributes = [
+      new AttributeArg(name: 'email', value: email),
+      new AttributeArg(name: 'name', value: patientName),
+    ];
+    CognitoUserPoolData data;
+    try {
+      data = await userPool.signUp(
+        email,
+        'Rar!197382465',
+        userAttributes: userAttributes
+      );
+    } catch (e) {
+      print("Error registering new patinet ${e.toString()}");
+    }
+
+    return data.user;
+  }
 }
