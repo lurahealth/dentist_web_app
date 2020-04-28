@@ -19,82 +19,26 @@ class LoginSubWidget extends StatelessWidget {
           fontWeight: FontWeight.bold, fontSize: 30, color: LURA_BLUE),
     );
 
-    final emailTextField = Column(
-      children: <Widget>[
-        TextField(
-          keyboardType: TextInputType.emailAddress,
-          onChanged: provider.checkEmail,
-          decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.alternate_email,
-              ),
-              hintText: LOGIN_SCREEN_EMAIL_HINT,
-              labelText: LOGIN_SCREEN_EMAIL_LABEL
-          ),
-        ),
-        Visibility(
-            visible: !provider.emailValid,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.error_outline,
-                    color: Colors.redAccent,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    LOGIN_SCREEN_EMAIL_ERROR,
-                    style: ERROR_TEXT,
-                  ),
-                ],
-              ),
-            ))
-      ],
-    );
+    final emailTextField = textField(LOGIN_SCREEN_EMAIL_HINT,
+                                     LOGIN_SCREEN_EMAIL_LABEL,
+                                     TextInputType.emailAddress,
+                                     provider.checkEmail,
+                                     provider.emailValid,
+                                     LOGIN_SCREEN_EMAIL_ERROR,
+                                     Icons.alternate_email);
 
-    final passwordTextField = Column(
-      children: <Widget>[
-        TextField(
-          obscureText: !provider.showPassword,
-          onChanged: provider.checkLoginPassword,
-          decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.vpn_key,
-              ),
-              suffixIcon: IconButton(
-                onPressed: provider.togglePasswordVisibility,
-                icon: provider.passwordIcon,
-                color: LURA_LIGHT_ORANGE,
-              ),
-              hintText: LOGIN_SCREEN_PASSWORD_HINT,
-              labelText: LOGIN_SCREEN_PASSWORD_LABEL),
+    final passwordTextField = textField(LOGIN_SCREEN_PASSWORD_HINT,
+                                        LOGIN_SCREEN_PASSWORD_LABEL,
+                                        TextInputType.text,
+                                        provider.checkLoginPassword,
+                                        provider.passwordValid,
+                                        LOGIN_SCREEN_PASSWORD_ERROR,
+                                        Icons.vpn_key,
+                                        obscureText: !provider.showPassword,
+                                        suffixIcon: IconButton(
+                                            icon: provider.passwordIcon,
+                                            onPressed: provider.togglePasswordVisibility),);
 
-        ),
-        Visibility(
-            visible: !provider.passwordValid,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.error_outline,
-                    color: Colors.redAccent,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    LOGIN_SCREEN_PASSWORD_ERROR,
-                    style: ERROR_TEXT,
-                  ),
-                ],
-              ),
-            ))
-      ],
-    );
 
     final errorText = Visibility(
       visible: provider.loginError,

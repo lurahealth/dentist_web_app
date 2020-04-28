@@ -19,8 +19,6 @@ class LoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
-
     LoginProvider provider = Provider.of<LoginProvider>(context);
 
     final List<Widget> _widgetOptions = <Widget>[
@@ -50,6 +48,8 @@ class LoginWidget extends StatelessWidget {
                 ),
                 Flexible(
                     flex: 6,
+                    // Show either the login screen or the password reset screen.
+                    // LoginSubWidget or PasswordResetScreen
                     child: _widgetOptions.elementAt(provider.displayWidget)
                 )
               ],
