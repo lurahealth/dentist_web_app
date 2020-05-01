@@ -76,28 +76,28 @@ class CognitoUserSingleton{
     return PASSWORD_CHANGE_SUCCESS;
   }
 
-  Future<CognitoUser> registerNewPatient(String email, String patientName, String patientId) async {
-    final CognitoUserPool userPool = await this.userPool;
-    final userAttributes = [
-      AttributeArg(name: "email", value: email),
-      AttributeArg(name: "name", value: patientName),
-      AttributeArg(name:"custom:patientId", value: patientId),
-      AttributeArg(name: "custom:isDentist", value: "false"),
-      AttributeArg(name: "custom:consultingDentist", value: _cognitoUser.username)
-    ];
-    CognitoUserPoolData data;
-    try {
-      data = await userPool.signUp(
-        email,
-        "Rar!197382465",
-        userAttributes: userAttributes
-      );
-    } catch (e) {
-      print("Error registering new patinet ${e.toString()}");
-    }
-
-    return data.user;
-  }
+//  Future<CognitoUser> registerNewPatient(String email, String patientName, String patientId) async {
+//    final CognitoUserPool userPool = await this.userPool;
+//    final userAttributes = [
+//      AttributeArg(name: "email", value: email),
+//      AttributeArg(name: "name", value: patientName),
+//      AttributeArg(name:"custom:patientId", value: patientId),
+//      AttributeArg(name: "custom:isDentist", value: "false"),
+//      AttributeArg(name: "custom:consultingDentist", value: _cognitoUser.username)
+//    ];
+//    CognitoUserPoolData data;
+//    try {
+//      data = await userPool.signUp(
+//        email,
+//        "Rar!197382465",
+//        userAttributes: userAttributes
+//      );
+//    } catch (e) {
+//      print("Error registering new patinet ${e.toString()}");
+//    }
+//
+//    return data.user;
+//  }
 
   Future setCurrentUserEmail() async {
 
