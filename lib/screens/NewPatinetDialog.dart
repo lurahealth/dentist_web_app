@@ -30,7 +30,7 @@ class NewPatientDialog extends StatelessWidget {
     final patientIdTextField = textField(NEW_PATIENT_PATIENT_ID_HINT,
                                          NEW_PATIENT_PATIENT_ID_LABEL,
                                          TextInputType.text,
-                                         provider.checkPatientId,
+                                         provider.checkPatientReference,
                                          true,
                                          "",
                                          Icons.assignment_ind);

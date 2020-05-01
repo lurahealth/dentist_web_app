@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/screens/GraphScreen.dart';
 import 'package:lura_dentist_webapp/screens/LoginScreen.dart';
-import 'package:lura_dentist_webapp/screens/NewPatinetScreen.dart';
+import 'package:lura_dentist_webapp/screens/NewPatinetDialog.dart';
 
 import 'StringUtils.dart';
 

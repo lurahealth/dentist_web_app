@@ -9,6 +9,7 @@ class CognitoUserSingleton{
   CognitoUserSession _session;
   CognitoUserPool _cognitoUserPool;
   CognitoUser _cognitoUser;
+  String currentUserEmail;
 
   CognitoUserSingleton._privateConstructor();
 
@@ -51,6 +52,7 @@ class CognitoUserSingleton{
                                                 );
     try{
       _session = await user.authenticateUser(authDetails);
+      await setCurrentUserEmail();
     }on CognitoUserNewPasswordRequiredException catch (e) {
       return e.message;
     } on Error catch (e){
@@ -66,6 +68,7 @@ class CognitoUserSingleton{
     final CognitoUser user = getUser(userPool);
     try {
       _session = await user.sendNewPasswordRequiredAnswer(newPassword);
+      await setCurrentUserEmail();
     } catch (e) {
       return PASSWORD_RESET_FAILED +" "+e.toString();
     }
@@ -73,17 +76,20 @@ class CognitoUserSingleton{
     return PASSWORD_CHANGE_SUCCESS;
   }
 
-  Future<CognitoUser> registerNewPatient(String email, String patientName) async {
+  Future<CognitoUser> registerNewPatient(String email, String patientName, String patientId) async {
     final CognitoUserPool userPool = await this.userPool;
     final userAttributes = [
-      new AttributeArg(name: 'email', value: email),
-      new AttributeArg(name: 'name', value: patientName),
+      AttributeArg(name: "email", value: email),
+      AttributeArg(name: "name", value: patientName),
+      AttributeArg(name:"custom:patientId", value: patientId),
+      AttributeArg(name: "custom:isDentist", value: "false"),
+      AttributeArg(name: "custom:consultingDentist", value: _cognitoUser.username)
     ];
     CognitoUserPoolData data;
     try {
       data = await userPool.signUp(
         email,
-        'Rar!197382465',
+        "Rar!197382465",
         userAttributes: userAttributes
       );
     } catch (e) {
@@ -91,5 +97,21 @@ class CognitoUserSingleton{
     }
 
     return data.user;
+  }
+
+  Future setCurrentUserEmail() async {
+
+    print("Setting current user email");
+
+    List<CognitoUserAttribute> attributes = await _cognitoUser
+        .getUserAttributes();
+
+    CognitoUserAttribute userAttribute = attributes.firstWhere((attribute) => attribute.name == "email" );
+
+    if(userAttribute != null){
+      currentUserEmail = userAttribute.value;
+    }else{
+      currentUserEmail = null;
+    }
   }
 }

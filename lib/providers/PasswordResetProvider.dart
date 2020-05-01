@@ -67,7 +67,6 @@ class PasswordResetProvider with ChangeNotifier {
 
   void passwordResetFailed(error) {
     print("Password rest failed ${error.toString()}");
-
   }
 
   void togglePasswordVisibility() {

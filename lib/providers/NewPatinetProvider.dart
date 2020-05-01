@@ -2,12 +2,13 @@ import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/services/CognitoUserSingleton.dart';
+import 'package:lura_dentist_webapp/utils/RestEndpoints.dart';
 
 class NewPatientProvider with ChangeNotifier{
   
   String patientName;
   String patientEmail;
-  String patientId;
+  String patientReference = "";
   
   bool patientNameValid = true;
   bool patientEmailValid = true;
@@ -37,12 +38,12 @@ class NewPatientProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  void checkPatientId(String value){
+  void checkPatientReference(String value){
     if(value != null && value.length > 0){
-      patientId = value;
+      patientReference = value;
       patientIdValid = true;
     }else{
-      patientId = null;
+      patientReference = " ";
       patientIdValid = false;
     }
 
@@ -57,8 +58,7 @@ class NewPatientProvider with ChangeNotifier{
   Future<void> registerNewPatient() async {
     checkFields();
     if(patientEmailValid && patientNameValid){
-       CognitoUser user = await CognitoUserSingleton.instance.registerNewPatient(patientEmail, patientName);
-       print("${user.username} created!");
+       setPatientRecord(patientName, patientEmail, patientReference);
     }
   }
 }
