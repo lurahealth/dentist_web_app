@@ -22,7 +22,12 @@ Future getPastSensorReadings(String deviceId,
                     .get(URL, queryParameters: queryParameters);
 }
 
-Future setPatientRecord(String patientName, String patientEmail,
+/// Creates a record of the patient in the DB.
+/// When the patient creates an account for them self on the user app, the 
+/// account details are checked against the record created here and the patient 
+/// is allowed to create an account only if the email address match.
+
+Future createPatientRecord(String patientName, String patientEmail,
                         String patientReference) async {
   print("Creating a record patinet in the DB");
 

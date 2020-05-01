@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // colours
-final Color LURA_BLUE = Color(0xFF405280);
-final Color LURA_LIGHT_BLUE = Color(0xFF26afde);
-final Color LURA_ORANGE = Color(0xFFee4221);
-final Color LURA_LIGHT_ORANGE = Color(0xFFf35e73);
+const Color LURA_BLUE = Color(0xFF405280);
+const  Color LURA_LIGHT_BLUE = Color(0xFF26afde);
+const Color LURA_ORANGE = Color(0xFFee4221);
+const Color LURA_LIGHT_ORANGE = Color(0xFFf35e73);
 
 // TextStyle
 const TextStyle WHITE_TEXT = TextStyle(color: Colors.white);
+const TextStyle GREEN_TEXT = TextStyle(color: Colors.green);
 const TextStyle ERROR_TEXT = TextStyle(color: Colors.redAccent, fontSize: 13);
+const TextStyle LURA_BLUE_TEXT = TextStyle(color: LURA_BLUE);
 
 Column textField(String hint, String label, TextInputType inputType,
     Function onChangeListener, bool textValid, String errorText, IconData prefixIcon,

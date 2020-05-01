@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/providers/NewPatinetProvider.dart';
 import 'package:lura_dentist_webapp/utils/StringUtils.dart';
 import 'package:lura_dentist_webapp/utils/StyleUtils.dart';
+import 'package:lura_dentist_webapp/widgets/LoadingWidget.dart';
 import 'package:provider/provider.dart';
 
 class NewPatientDialog extends StatelessWidget {
@@ -35,23 +36,85 @@ class NewPatientDialog extends StatelessWidget {
                                          "",
                                          Icons.assignment_ind);
 
+    final errorMessage = Text(provider.errorText, style: ERROR_TEXT,);
+
     final newPatientButton = RaisedButton(
-        onPressed: provider.registerNewPatient,
-      child: Text("Register patinet"),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0),),
+      color: LURA_BLUE,
+      onPressed: provider.registerNewPatient,
+      child: Text("Register patient", style: WHITE_TEXT,),
+    );
+
+    final patientCreated = Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Icon(Icons.done, color: Colors.green,),
+        Text("Patient created", style: GREEN_TEXT,)
+      ],
     );
 
     return AlertDialog(
-      title: Text("Register new patinet"),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          patientNameTextField,
-          patientEmailTextField,
-          patientIdTextField,
-          newPatientButton
-        ],
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      title: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Visibility(
+          visible: (!provider.loading && !provider.patientCreated),
+          child: Center(
+            child: Text("Register new patinet", style: LURA_BLUE_TEXT,),
+          ),
+        ),
+      ),
+      content: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Visibility(
+              visible: (!provider.loading && !provider.patientCreated),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: patientNameTextField,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: patientEmailTextField,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: patientIdTextField,
+                  ),
+                  SizedBox(height: 20,),
+                  Visibility(
+                    visible: provider.error,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: errorMessage,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: newPatientButton,
+                  )
+                ],
+              ),
+            ),
+            Visibility(
+              visible: provider.loading,
+              child: LoadingWidget("Registering patient", LURA_BLUE),
+            ),
+            Visibility(
+              visible: provider.patientCreated,
+              child: patientCreated,
+            ),
+          ],
+        ),
       ),
     );
   }
