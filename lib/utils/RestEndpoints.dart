@@ -37,9 +37,12 @@ Future createPatientRecord(String patientName, String patientEmail,
   Map<String, String> queryParameters = {
     "patientName": patientName,
     "patientEmail":patientEmail,
-    "patientReference": patientReference,
     "dentistEmail": CognitoUserSingleton.instance.currentUserEmail
   };
+
+  if(patientReference != null){
+    queryParameters.addAll({"patientReference": patientReference});
+  }
 
   return await new NetworkCommon()
       .dio

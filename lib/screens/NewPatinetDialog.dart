@@ -42,14 +42,23 @@ class NewPatientDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0),),
       color: LURA_BLUE,
       onPressed: provider.registerNewPatient,
-      child: Text("Register patient", style: WHITE_TEXT,),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+        child: Text("Register patient", style: WHITE_TEXT,),
+      ),
     );
 
     final patientCreated = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Icon(Icons.done, color: Colors.green,),
-        Text("Patient created", style: GREEN_TEXT,)
+        Icon(Icons.done, color: Colors.green,size: MediaQuery.of(context).size.height*0.15),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Patient created",
+            style: GREEN_TEXT.copyWith(fontSize: MediaQuery.of(context).size.height*0.02) ,),
+        )
       ],
     );
 
@@ -66,54 +75,57 @@ class NewPatientDialog extends StatelessWidget {
           ),
         ),
       ),
-      content: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Visibility(
-              visible: (!provider.loading && !provider.patientCreated),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: patientNameTextField,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: patientEmailTextField,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: patientIdTextField,
-                  ),
-                  SizedBox(height: 20,),
-                  Visibility(
-                    visible: provider.error,
-                    child: Padding(
+      content: Container(
+        width: MediaQuery.of(context).size.width*0.20,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Visibility(
+                visible: (!provider.loading && !provider.patientCreated),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: errorMessage,
+                      child: patientNameTextField,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: newPatientButton,
-                  )
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: patientEmailTextField,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: patientIdTextField,
+                    ),
+                    SizedBox(height: 20,),
+                    Visibility(
+                      visible: provider.error,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: errorMessage,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: newPatientButton,
+                    )
+                  ],
+                ),
               ),
-            ),
-            Visibility(
-              visible: provider.loading,
-              child: LoadingWidget("Registering patient", LURA_BLUE),
-            ),
-            Visibility(
-              visible: provider.patientCreated,
-              child: patientCreated,
-            ),
-          ],
+              Visibility(
+                visible: provider.loading,
+                child: LoadingWidget("Registering patient", LURA_BLUE),
+              ),
+              Visibility(
+                visible: provider.patientCreated,
+                child: patientCreated,
+              ),
+            ],
+          ),
         ),
       ),
     );

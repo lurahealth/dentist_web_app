@@ -78,9 +78,9 @@ class NewPatientProvider with ChangeNotifier{
 
   void patientCreationError(error){
     loading = false;
-    print(error.toString());
-    error = true;
-    errorText ="Error creating patinet";
+    print("Patient create error ${error.toString()}");
+    this.error = true;
+    errorText = "Error creating patient!";
     notifyListeners();
   }
 }
