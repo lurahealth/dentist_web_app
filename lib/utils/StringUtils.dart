@@ -1,8 +1,6 @@
 
 
 // Route Names
-import 'dart:html';
-
 const GRAPH_SCREEN = "/graphScreen";
 const LOGIN_SCREEN = "/";
 const NEW_PATIENT_SCREEN = "/newPatientScreen";
