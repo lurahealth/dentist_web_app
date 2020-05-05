@@ -60,7 +60,7 @@ class PasswordResetProvider with ChangeNotifier {
       CognitoUserSingleton.instance.newUserPasswordReset(newPassword).then(
           (response) {
         print("Password reset succcess $response");
-        Navigator.popAndPushNamed(context, GRAPH_SCREEN);
+        Navigator.pushNamedAndRemoveUntil(context, MAIN_UI_SCREEN, (route) => false);
       }, onError: passwordResetFailed);
     }
   }

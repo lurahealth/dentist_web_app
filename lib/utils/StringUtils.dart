@@ -4,6 +4,7 @@
 const GRAPH_SCREEN = "/graphScreen";
 const LOGIN_SCREEN = "/";
 const NEW_PATIENT_SCREEN = "/newPatientScreen";
+const MAIN_UI_SCREEN = "/mainUIScreen";
 
 // // columns names
 final String ROW_ID = "row_id"; // Primary key, auto-incremented

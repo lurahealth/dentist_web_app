@@ -45,6 +45,7 @@ class CognitoUserSingleton{
   Future<String> loginUser(String email, String password) async{
     print("Loggins in user Email: $email Password: $password");
     final CognitoUserPool userPool = await this.userPool;
+    _cognitoUser = null;
     final CognitoUser user = getUser(userPool, email: email);
     final AuthenticationDetails authDetails = AuthenticationDetails(
                                                     username: email,
