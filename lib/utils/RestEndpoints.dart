@@ -48,3 +48,21 @@ Future createPatientRecord(String patientName, String patientEmail,
       .dio
       .post(URL, queryParameters: queryParameters);
 }
+
+Future getPatientsForCurrentDentist() async {
+  String currentDentistEmail = CognitoUserSingleton.instance.currentUserEmail;
+  if(currentDentistEmail != null){
+    const String URL = "https://vlvwmemd96.execute-api.us-east-1.amazonaws.com/v1/patient";
+
+    Map<String, String> queryParameters ={
+      "dentistEmail" : currentDentistEmail
+    };
+
+    return await new NetworkCommon()
+        .dio
+        .get(URL, queryParameters: queryParameters);
+
+  }else{
+    throw("No dentist email set!");
+  }
+}

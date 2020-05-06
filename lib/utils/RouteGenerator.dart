@@ -13,8 +13,6 @@ class RouteGenerator {
     switch (settings.name) {
       case LOGIN_SCREEN:
         return MaterialPageRoute(builder: (_) => LoginScreen());
-      case GRAPH_SCREEN:
-        return MaterialPageRoute(builder: (_) => GraphScreen());
       case MAIN_UI_SCREEN:
         return MaterialPageRoute(builder: (_) => MainUIScreen());
       default:

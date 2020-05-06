@@ -1,17 +1,17 @@
 import 'package:lura_dentist_webapp/models/AreaChartData.dart';
 
-class ResponseMessageModel {
+class SensorDataResponseMessageModel {
   int rowCount;
   int min;
   int max;
   int average;
   List<AreaChartData> rows;
 
-  ResponseMessageModel(this.rowCount, this.min, this.max, this.average,
+  SensorDataResponseMessageModel(this.rowCount, this.min, this.max, this.average,
       this.rows);
 
-  factory ResponseMessageModel.fromJson(Map<String, dynamic> json) {
-    return ResponseMessageModel(
+  factory SensorDataResponseMessageModel.fromJson(Map<String, dynamic> json) {
+    return SensorDataResponseMessageModel(
         json["rowCount"],
         json["min"],
         json["max"],

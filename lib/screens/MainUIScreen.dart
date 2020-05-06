@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/providers/MainUIScreenProvider.dart';
+import 'package:lura_dentist_webapp/screens/GraphScreen.dart';
+import 'package:lura_dentist_webapp/screens/PatientsListScreen.dart';
 import 'package:lura_dentist_webapp/utils/StyleUtils.dart';
 import 'package:provider/provider.dart';
 
@@ -16,15 +18,65 @@ class MainUIScreen extends StatelessWidget {
 class MainUIWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Container sideBar = Container(
-      width: MediaQuery.of(context).size.width * 0.33,
-      color: LURA_BLUE,
+
+    final MainUIScreenProvider provider = Provider.of<MainUIScreenProvider>(context);
+
+    final List<Widget> _widgetOptions = <Widget>[
+      PatientsListScreen(), GraphScreen()
+    ];
+
+    final Container dentistDetails = Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Dentist Name", style: WHITE_TITLE,),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Clinic Name",style: WHITE_SUB_TITLE, ),
+          )
+        ],
+      ),
     );
+
+    final Container sideBar = Container(
+      width: MediaQuery.of(context).size.width * 0.25,
+      color: LURA_BLUE,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                 Padding(
+                   padding: const EdgeInsets.all(32.0),
+                   child: dentistDetails,
+                 ),
+                Divider(color: Colors.white,thickness: 2,),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Image.asset('assets/splash_screen.png'),
+          ),
+        ],
+      ),
+    );
+
+
 
     return Scaffold(
       body: Container(
         child: Row(
-          children: <Widget>[sideBar],
+          children: <Widget>[
+            sideBar,
+            _widgetOptions.elementAt(provider.currentScreen),
+          ],
         ),
       ),
     );

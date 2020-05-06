@@ -2,7 +2,7 @@
 
 import 'package:lura_dentist_webapp/utils/StringUtils.dart';
 
-class DataModel{
+class SensorDataModel{
   final num pH;
   final num battery;
   final num temperature;
@@ -12,7 +12,7 @@ class DataModel{
   final String deviceId;
   final bool uploaded;
 
-  DataModel(this.pH,
+  SensorDataModel(this.pH,
             this.battery,
             this.temperature,
             this.connectionTime,
@@ -39,8 +39,8 @@ class DataModel{
            "Temparature: $temperature Device id: $deviceId";
   }
 
-  factory DataModel.fromMap(Map<String, dynamic> map){
-    return DataModel(
+  factory SensorDataModel.fromJson(Map<String, dynamic> map){
+    return SensorDataModel(
       map[PH],
       map[BATTERY],
       map[TEMPERATURE],
@@ -52,10 +52,10 @@ class DataModel{
     );
   }
 
-  factory DataModel.fromRawDataString(String data, String notes,
+  factory SensorDataModel.fromRawDataString(String data, String notes,
                                       String deviceName, DateTime nowUTC){
     List<String> readings = data.split(",");
-    return DataModel(
+    return SensorDataModel(
         double.parse(readings[0]),
         double.parse(readings[2]),
         double.parse(readings[1]),

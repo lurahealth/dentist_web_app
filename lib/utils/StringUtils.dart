@@ -1,7 +1,6 @@
 
 
 // Route Names
-const GRAPH_SCREEN = "/graphScreen";
 const LOGIN_SCREEN = "/";
 const NEW_PATIENT_SCREEN = "/newPatientScreen";
 const MAIN_UI_SCREEN = "/mainUIScreen";
@@ -17,6 +16,14 @@ final String NOTES = "notes"; // Note for a sensor reading
 final String DEVICE_ID = "device_id"; // Device sending the data
 final String UPLOADED = "uploaded"; // if sensor data has been uploaded set to 1 else set to 0
 
+// Patient Model
+final String PATIENT_ID = "patient_id";
+final String DENTIST_EMAIL = "dentist_email";
+final String PATIENT_EMAIL = "patient_email";
+final String PATIENT_NAME = "patient_name";
+final String PATIENT_REFERENCE = "patient_reference";
+final String CONFIRMED = "confirmed";
+
 
 // Cognito statuses
 const String USER_LOGGED_IN = "user_logged_in";
@@ -25,6 +32,10 @@ const String NEW_PASSWORD_REQUIRED = "New Password required";
 const String PASSWORD_CHANGE_SUCCESS = "password_reset_success";
 const String PASSWORD_CHANGE_FAILED = "password_reset_failed";
 const String PASSWORD_RESET_FAILED = "passowrd_rest_dailed";
+
+// Main UI screens
+const int PATIENT_LIST_SCREEN = 0;
+const int GRAPH_SCREEN = 1;
 
 // Password regex
 const String PASSWORD_REGEX = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*-?&^~]{6,}$';

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lura_dentist_webapp/models/AreaChartData.dart';
-import 'package:lura_dentist_webapp/models/GetDataResponseModel.dart';
-import 'package:lura_dentist_webapp/models/ResponseMessageModel.dart';
+import 'package:lura_dentist_webapp/models/sensor_data/GetSensorDataResponseModel.dart';
+import 'package:lura_dentist_webapp/models/sensor_data/SensorDataResponseMessageModel.dart';
 import 'package:lura_dentist_webapp/services/NetworkCommon.dart';
 import 'package:lura_dentist_webapp/utils/RestEndpoints.dart';
 
@@ -37,8 +37,8 @@ class GraphDataProvider with ChangeNotifier{
   void getDataSuccess(r){
     Map<String, dynamic> result = new NetworkCommon().decodeResp(r);
     print("Get data success");
-    GetDataResponseModel response = GetDataResponseModel.fromJson(result);
-    ResponseMessageModel responseMessage = response.responseMessageModel;
+    GetSensorDataResponseModel response = GetSensorDataResponseModel.fromJson(result);
+    SensorDataResponseMessageModel responseMessage = response.responseMessageModel;
     print("Row count: ${response.responseMessageModel.rowCount}");
     pHData = responseMessage.rows;
     minPh = responseMessage.min;
