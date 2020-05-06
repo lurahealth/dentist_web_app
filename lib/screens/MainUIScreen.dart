@@ -21,8 +21,12 @@ class MainUIWidget extends StatelessWidget {
 
     final MainUIScreenProvider provider = Provider.of<MainUIScreenProvider>(context);
 
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     final List<Widget> _widgetOptions = <Widget>[
-      PatientsListScreen(), GraphScreen()
+      PatientsListScreen(),
+      GraphScreen()
     ];
 
     final Container dentistDetails = Container(
@@ -43,7 +47,8 @@ class MainUIWidget extends StatelessWidget {
     );
 
     final Container sideBar = Container(
-      width: MediaQuery.of(context).size.width * 0.25,
+      width: width * 0.25,
+      height: height,
       color: LURA_BLUE,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +80,11 @@ class MainUIWidget extends StatelessWidget {
         child: Row(
           children: <Widget>[
             sideBar,
-            _widgetOptions.elementAt(provider.currentScreen),
+            SizedBox(
+              height: height,
+              width: width*0.75,
+              child: _widgetOptions.elementAt(provider.currentScreen),
+            )
           ],
         ),
       ),

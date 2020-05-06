@@ -1,9 +1,8 @@
-
-
 // Route Names
 const LOGIN_SCREEN = "/";
 const NEW_PATIENT_SCREEN = "/newPatientScreen";
 const MAIN_UI_SCREEN = "/mainUIScreen";
+const PATIENT_LIST_SCREEN = "/patientListScreen";
 
 // // columns names
 final String ROW_ID = "row_id"; // Primary key, auto-incremented
@@ -34,8 +33,8 @@ const String PASSWORD_CHANGE_FAILED = "password_reset_failed";
 const String PASSWORD_RESET_FAILED = "passowrd_rest_dailed";
 
 // Main UI screens
-const int PATIENT_LIST_SCREEN = 0;
-const int GRAPH_SCREEN = 1;
+//const int PATIENT_LIST_SCREEN = 0;
+//const int GRAPH_SCREEN = 1;
 
 // Password regex
 const String PASSWORD_REGEX = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*-?&^~]{6,}$';

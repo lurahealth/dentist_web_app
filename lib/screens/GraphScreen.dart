@@ -65,12 +65,6 @@ class GraphWidget extends StatelessWidget {
                           },
                           child: new Text("Pick date range")
                       ),
-                      MaterialButton(
-                          onPressed: () {
-                            _showNewPatientsDialog(context);
-                            } ,
-                          child: new Text("New patinet")
-                      )
                     ],
                   )
                 ],
@@ -86,17 +80,7 @@ class GraphWidget extends StatelessWidget {
     );
   }
 
-  Future _showNewPatientsDialog(BuildContext context) async {
-    return showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return ChangeNotifierProvider(
-            create: (_) => NewPatientProvider() ,
-            child: NewPatientDialog(),
-          );
-        });
-  }
+
 
 
 }

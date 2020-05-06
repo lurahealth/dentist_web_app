@@ -7,9 +7,10 @@ class PatientDataResponseModel{
   PatientDataResponseModel(this.rowCount, this.patients);
 
   factory PatientDataResponseModel.fromJson(Map<String, dynamic> json){
+    var list = json["patients"] as List;
     return PatientDataResponseModel(
-        json["rowCount"], 
-        json["patients"].forEach((patientJson) => PatientModel.fromJson(patientJson) )
+        json["rowCount"],
+        list.map((i) => PatientModel.fromJson(i)).toList()
     );
   }
 

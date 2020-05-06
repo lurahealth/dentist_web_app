@@ -38,12 +38,12 @@ class CognitoUserSingleton{
   }
 
   String get token {
-    print(_session.idToken.getJwtToken());
+//    print(_session.idToken.getJwtToken());
     return _session.idToken.getJwtToken();
   }
 
   Future<String> loginUser(String email, String password) async{
-    print("Loggins in user Email: $email Password: $password");
+//    print("Loggins in user Email: $email Password: $password");
     final CognitoUserPool userPool = await this.userPool;
     _cognitoUser = null;
     final CognitoUser user = getUser(userPool, email: email);

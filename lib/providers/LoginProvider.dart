@@ -42,7 +42,7 @@ class LoginProvider with ChangeNotifier {
           displayWidget = 1;
           notifyListeners();
         } else {
-          Navigator.pushNamedAndRemoveUntil(context, MAIN_UI_SCREEN, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, PATIENT_LIST_SCREEN, (route) => false);
         }
       }, onError: loginFailed);
     }
