@@ -18,6 +18,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MainUIScreen());
       case PATIENT_LIST_SCREEN:
         return MaterialPageRoute(builder: (_) => PatientsListScreen());
+      case GRAPH_SCREEN:
+        return MaterialPageRoute(builder: (_) => GraphScreen(args));
       default:
         return _errorRoute();
     }

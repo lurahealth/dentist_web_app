@@ -3,6 +3,7 @@ const LOGIN_SCREEN = "/";
 const NEW_PATIENT_SCREEN = "/newPatientScreen";
 const MAIN_UI_SCREEN = "/mainUIScreen";
 const PATIENT_LIST_SCREEN = "/patientListScreen";
+const GRAPH_SCREEN = "/graphScreen";
 
 // // columns names
 final String ROW_ID = "row_id"; // Primary key, auto-incremented
@@ -77,3 +78,6 @@ const String NEW_PATIENT_EMAIL_LABEL = "Patient email";
 const String NEW_PATIENT_EMAIL_ERROR = "Please enter a valid email address";
 const String NEW_PATIENT_PATIENT_ID_HINT = "Enter patient id(optional)";
 const String NEW_PATIENT_PATIENT_ID_LABEL = "Patient id";
+
+// Patients list screen
+const String PATIENTS_LIST_DOWNLOADING_MESSAGE = "Downloading Patients";

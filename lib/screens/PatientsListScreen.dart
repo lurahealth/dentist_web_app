@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/providers/NewPatinetProvider.dart';
 import 'package:lura_dentist_webapp/providers/PatientsListProvider.dart';
+import 'package:lura_dentist_webapp/utils/StringUtils.dart';
 import 'package:lura_dentist_webapp/utils/StyleUtils.dart';
+import 'package:lura_dentist_webapp/widgets/LoadingWidget.dart';
 import 'package:lura_dentist_webapp/widgets/PatientListItem.dart';
 import 'package:provider/provider.dart';
 
@@ -20,38 +22,55 @@ class PatientsListScreen extends StatelessWidget {
 class PatientListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     final PatientsListProvider provider =
         Provider.of<PatientsListProvider>(context);
     if (!provider.patientsLoaded) {
       provider.getPatients();
     }
 
+//    final headerImage = Container(
+//      width: width,
+//      height: height*0.2,
+//      color: LURA_BLUE,
+//      child: ,
+//    );
+
     final patientsGrid = GridView.builder(
-        itemCount: provider.patients.length,
+        itemCount: provider.displayPatients.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 1 / 1.2,
-          crossAxisCount: (MediaQuery.of(context).size.width / 300).round(),
+          crossAxisCount: (width / 300).round(),
         ),
         itemBuilder: (BuildContext context, int index) {
-          return PatientListItem(provider.patients[index]);
+          return PatientListItem(provider.displayPatients[index]);
         });
 
-    final searchBar = Material(
+    final headerBlock = Material(
       elevation: 10,
       child:Container(
         color: LURA_BLUE,
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: height * 0.42,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
-            child: TextField(
-              decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-                  prefixIcon: Icon(Icons.search, color: LURA_ORANGE,),
-                  hintText: "Search by Patient name or reference"
-              ),
+            child: Column(
+              children: <Widget>[
+                Image.asset('assets/splash_screen.png'),
+                SizedBox(height: height*0.05,),
+                TextField(
+                  onChanged: provider.patientsSearch,
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+                      prefixIcon: Icon(Icons.search, color: LURA_ORANGE,),
+                      hintText: "Search by Patient name or reference"
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -59,10 +78,22 @@ class PatientListWidget extends StatelessWidget {
     );
 
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          searchBar,
-          Expanded(child: patientsGrid)
+          Visibility(
+            visible: !provider.loading,
+            child: Column(
+              children: <Widget>[
+//          headerImage,
+                headerBlock,
+                Expanded(child: patientsGrid)
+              ],
+            ),
+          ),
+          Visibility(
+            visible: provider.loading,
+            child: LoadingWidget(PATIENTS_LIST_DOWNLOADING_MESSAGE, LURA_BLUE),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

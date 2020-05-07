@@ -9,6 +9,7 @@ class PatientsListProvider with ChangeNotifier{
   bool patientsLoaded = false;
 
   List<PatientModel> patients = [];
+  List<PatientModel> displayPatients = [];
 
   void getPatients(){
     if(!patientsLoaded){
@@ -23,9 +24,33 @@ class PatientsListProvider with ChangeNotifier{
     Map<String, dynamic> result = NetworkCommon().decodeResp(r);
     PatientDataResponseModel patientDataResponseModel = PatientDataResponseModel.fromJson(result);
     patients = patientDataResponseModel.patients;
+    displayPatients = patients;
     print(patientDataResponseModel.rowCount);
 
     loading = false;
+    notifyListeners();
+  }
+
+  void patientsSearch(String searchQuery){
+    displayPatients = []; // clear the currently displayed patients
+    searchQuery = searchQuery.toLowerCase();
+
+    // Searching through their names
+    patients.forEach((patient) {
+      if(patient.patientName.toLowerCase() == searchQuery){
+        displayPatients.add(patient);
+      }
+    });
+
+    // Searching patient reference
+    patients.forEach((patient) {
+      if(!displayPatients.contains(patient) &&
+         patient.patientReference != null &&
+         patient.patientReference.toLowerCase() == searchQuery){
+        displayPatients.add(patient);
+      }
+    });
+
     notifyListeners();
   }
 

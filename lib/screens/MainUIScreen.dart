@@ -24,10 +24,10 @@ class MainUIWidget extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    final List<Widget> _widgetOptions = <Widget>[
-      PatientsListScreen(),
-      GraphScreen()
-    ];
+//    final List<Widget> _widgetOptions = <Widget>[
+//      PatientsListScreen(),
+//      GraphScreen()
+//    ];
 
     final Container dentistDetails = Container(
       child: Column(
@@ -80,11 +80,11 @@ class MainUIWidget extends StatelessWidget {
         child: Row(
           children: <Widget>[
             sideBar,
-            SizedBox(
-              height: height,
-              width: width*0.75,
-              child: _widgetOptions.elementAt(provider.currentScreen),
-            )
+//            SizedBox(
+//              height: height,
+//              width: width*0.75,
+//              child: _widgetOptions.elementAt(provider.currentScreen),
+//            )
           ],
         ),
       ),

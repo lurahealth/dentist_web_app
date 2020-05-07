@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lura_dentist_webapp/models/patient/PatientModel.dart';
 import 'package:lura_dentist_webapp/providers/GraphDataProvider.dart';
 import 'package:lura_dentist_webapp/providers/NewPatinetProvider.dart';
 import 'package:lura_dentist_webapp/screens/NewPatinetDialog.dart';
@@ -10,10 +11,14 @@ import 'package:lura_dentist_webapp/widgets/StatsWidget.dart';
 import 'package:provider/provider.dart';
 
 class GraphScreen extends StatelessWidget {
+  final PatientModel currentPatient;
+
+  GraphScreen(this.currentPatient);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => GraphDataProvider(),
+      create: (_) => GraphDataProvider(currentPatient),
       child: GraphWidget(),
     );
   }
