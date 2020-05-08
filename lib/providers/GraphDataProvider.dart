@@ -20,6 +20,8 @@ class GraphDataProvider with ChangeNotifier{
   int currentSegment = 0;
   int animationDuration = 500;
   int dataPointsPerSegment = 100;
+  int timesOverValue = 7;
+  int timesUnderValue = 4;
 
   bool error = false;
   String errorMessage = "";
@@ -27,7 +29,7 @@ class GraphDataProvider with ChangeNotifier{
   bool dataLoaded = false;
   bool loadingData = true;
 
-  void getData(){
+  void getSensorDataFromCloud(){
     if(!dataLoaded){
       dataLoaded = true;
 
@@ -74,6 +76,15 @@ class GraphDataProvider with ChangeNotifier{
     print("Segment count ${segment.length}");
 
     List<num> phValues = segment.map((dataPoint) => dataPoint.dataReading).toList();
+    int timesOver = 0;
+    int timesUnder = 0;
+    phValues.forEach((value) {
+      if (value > timesOverValue) {
+        timesOver++;
+      } else if (value < timesUnderValue) {
+        timesUnder--;
+      }
+    });
 
     int average = ((phValues.reduce((first, next) => first+next))/(segment.length)).round();
     int minPh = phValues.reduce(min).round();
@@ -85,20 +96,22 @@ class GraphDataProvider with ChangeNotifier{
       chartData: segment,
       maxPh: maxPh,
       minPh: minPh,
-      averagePh: average
+      averagePh: average,
+      timesOver: timesOver,
+      timesUnder: timesUnder
     );
 
     displaySegments.add(dataModel);
   }
 
-  void lastWeeksData(){
+  void showLastWeeksData(){
     if(currentSegment > 0){
       currentSegment = currentSegment -1;
       notifyListeners();
     }
   }
 
-  void nextWeeksData(){
+  void showNextWeeksData(){
     if(currentSegment != displaySegments.length -1){
       currentSegment = currentSegment + 1;
       notifyListeners();
@@ -117,6 +130,6 @@ class GraphDataProvider with ChangeNotifier{
     sensorDataFromDate = null;
     sensorDataToDate = null;
     dataLoaded = false;
-    getData();
+    getSensorDataFromCloud();
   }
 }
