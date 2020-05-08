@@ -33,7 +33,9 @@ class PatientListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           elevation: 5,
           child: Container(
+            height: 10,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),

@@ -1,4 +1,6 @@
 // Route Names
+import 'package:intl/intl.dart';
+
 const LOGIN_SCREEN = "/";
 const NEW_PATIENT_SCREEN = "/newPatientScreen";
 const MAIN_UI_SCREEN = "/mainUIScreen";
@@ -6,23 +8,23 @@ const PATIENT_LIST_SCREEN = "/patientListScreen";
 const GRAPH_SCREEN = "/graphScreen";
 
 // // columns names
-final String ROW_ID = "row_id"; // Primary key, auto-incremented
-final String PH = "ph"; // pH reading
-final String BATTERY = "battery"; // battery voltage reading
-final String TEMPERATURE = "temperature"; // temperature reading
-final String CONNETION_TIME = "connection_time"; // time to connect to the sensor
-final String TIME_STAMP = "time_stamp"; // time stamp of the reading in UTC
-final String NOTES = "notes"; // Note for a sensor reading
-final String DEVICE_ID = "device_id"; // Device sending the data
-final String UPLOADED = "uploaded"; // if sensor data has been uploaded set to 1 else set to 0
+const String ROW_ID = "row_id"; // Primary key, auto-incremented
+const String PH = "ph"; // pH reading
+const String BATTERY = "battery"; // battery voltage reading
+const String TEMPERATURE = "temperature"; // temperature reading
+const String CONNETION_TIME = "connection_time"; // time to connect to the sensor
+const String TIME_STAMP = "time_stamp"; // time stamp of the reading in UTC
+const String NOTES = "notes"; // Note for a sensor reading
+const String DEVICE_ID = "device_id"; // Device sending the data
+const String UPLOADED = "uploaded"; // if sensor data has been uploaded set to 1 else set to 0
 
 // Patient Model
-final String PATIENT_ID = "patient_id";
-final String DENTIST_EMAIL = "dentist_email";
-final String PATIENT_EMAIL = "patient_email";
-final String PATIENT_NAME = "patient_name";
-final String PATIENT_REFERENCE = "patient_reference";
-final String CONFIRMED = "confirmed";
+const String PATIENT_ID = "patient_id";
+const String DENTIST_EMAIL = "dentist_email";
+const String PATIENT_EMAIL = "patient_email";
+const String PATIENT_NAME = "patient_name";
+const String PATIENT_REFERENCE = "patient_reference";
+const String CONFIRMED = "confirmed";
 
 
 // Cognito statuses
@@ -33,9 +35,8 @@ const String PASSWORD_CHANGE_SUCCESS = "password_reset_success";
 const String PASSWORD_CHANGE_FAILED = "password_reset_failed";
 const String PASSWORD_RESET_FAILED = "passowrd_rest_dailed";
 
-// Main UI screens
-//const int PATIENT_LIST_SCREEN = 0;
-//const int GRAPH_SCREEN = 1;
+// Date format
+DateFormat dateDisplayFormat = DateFormat("MMMM dd, yyyy");
 
 // Password regex
 const String PASSWORD_REGEX = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*-?&^~]{6,}$';

@@ -5,18 +5,19 @@ class SensorDataResponseMessageModel {
   int min;
   int max;
   int average;
-  List<AreaChartData> rows;
+  List<ChartData> rows;
 
-  SensorDataResponseMessageModel(this.rowCount, this.min, this.max, this.average,
-      this.rows);
+  SensorDataResponseMessageModel(this.rowCount, this.min, this.max,
+                                 this.average, this.rows);
 
   factory SensorDataResponseMessageModel.fromJson(Map<String, dynamic> json) {
+    var data = json["rows"] as List;
     return SensorDataResponseMessageModel(
         json["rowCount"],
         json["min"],
         json["max"],
         json["average"],
-        json["rows"].forEach((item) => AreaChartData.fromJsonAPI(item))
+        data.map((i) => ChartData.fromJsonAPI(i)).toList()
     );
   }
 }

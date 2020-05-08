@@ -37,7 +37,7 @@ class PatientsListProvider with ChangeNotifier{
 
     // Searching through their names
     patients.forEach((patient) {
-      if(patient.patientName.toLowerCase() == searchQuery){
+      if(patient.patientName.toLowerCase().contains(searchQuery)){
         displayPatients.add(patient);
       }
     });
@@ -46,7 +46,7 @@ class PatientsListProvider with ChangeNotifier{
     patients.forEach((patient) {
       if(!displayPatients.contains(patient) &&
          patient.patientReference != null &&
-         patient.patientReference.toLowerCase() == searchQuery){
+         patient.patientReference.toLowerCase().contains(searchQuery) ){
         displayPatients.add(patient);
       }
     });

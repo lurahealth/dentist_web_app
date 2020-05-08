@@ -13,5 +13,4 @@ class PatientDataResponseModel{
         list.map((i) => PatientModel.fromJson(i)).toList()
     );
   }
-
 }

@@ -31,13 +31,6 @@ class PatientListWidget extends StatelessWidget {
       provider.getPatients();
     }
 
-//    final headerImage = Container(
-//      width: width,
-//      height: height*0.2,
-//      color: LURA_BLUE,
-//      child: ,
-//    );
-
     final patientsGrid = GridView.builder(
         itemCount: provider.displayPatients.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

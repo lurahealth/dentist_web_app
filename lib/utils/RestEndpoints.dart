@@ -1,16 +1,16 @@
 import 'package:lura_dentist_webapp/services/CognitoUserSingleton.dart';
 import 'package:lura_dentist_webapp/services/NetworkCommon.dart';
 
-Future getPastSensorReadings(String deviceId,
+Future getPastSensorReadings(String userName,
                              DateTime from, DateTime to) async {
 
-  print("Getting past sensor data DeviceId: $deviceId "
+  print("Getting past sensor data DeviceId: $userName "
       "From date: ${from.toString()} To date: ${to.toString()}");
 
   const String URL =
       "https://vlvwmemd96.execute-api.us-east-1.amazonaws.com/v1/sensordata";
 
-  Map<String, String> queryParameters = {"deviceId": deviceId};
+  Map<String, String> queryParameters = {"userName": userName};
 
   if (from != null && to != null) {
     queryParameters

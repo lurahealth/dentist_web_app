@@ -29,18 +29,18 @@ class StatsWidget extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: title,
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: dataWidget("Lowest pH", provider.minPh),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: dataWidget("Highest pH", provider.maxPh),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: dataWidget("Average pH", provider.averagePh),
-        )
+//        Padding(
+//          padding: const EdgeInsets.all(8.0),
+//          child: dataWidget("Lowest pH", provider.minPh),
+//        ),
+//        Padding(
+//          padding: const EdgeInsets.all(8.0),
+//          child: dataWidget("Highest pH", provider.maxPh),
+//        ),
+//        Padding(
+//          padding: const EdgeInsets.all(8.0),
+//          child: dataWidget("Average pH", provider.averagePh),
+//        )
       ],
     );
   }
