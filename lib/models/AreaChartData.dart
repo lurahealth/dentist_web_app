@@ -1,15 +1,21 @@
-class AreaChartData{
-  double dataReading;
+import 'package:lura_dentist_webapp/utils/StringUtils.dart';
+
+class ChartData{
+  num dataReading;
   DateTime timeStamp;
 
-  AreaChartData(this.dataReading, this.timeStamp);
+  ChartData(this.dataReading, this.timeStamp);
 
-  factory AreaChartData.fromLiveData(DateTime timeStamp, double dataReading){
-    return AreaChartData(dataReading, timeStamp);
+  factory ChartData.fromLiveData(DateTime timeStamp, double dataReading){
+    return ChartData(dataReading, timeStamp);
   }
 
-  factory AreaChartData.fromDatabase(int timeInMillSeconds, double dataReading){
-    return AreaChartData(dataReading,
+  factory ChartData.fromDatabase(int timeInMillSeconds, double dataReading){
+    return ChartData(dataReading,
                       DateTime.fromMillisecondsSinceEpoch(timeInMillSeconds));
+  }
+
+  factory ChartData.fromJsonAPI(Map<String, dynamic> map) {
+    return ChartData(map["ph"], DateTime.parse(map[TIME_STAMP]).toLocal(),);
   }
 }

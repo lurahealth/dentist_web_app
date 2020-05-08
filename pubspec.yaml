@@ -24,15 +24,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   provider: 4.0.1
-  syncfusion_flutter_charts: 17.4.46
   intl: 0.16.1
   dio: 3.0.8
   flutter_datetime_picker: 1.3.4
-  amazon_cognito_identity_dart: 0.0.22
+  amazon_cognito_identity_dart_2: 0.1.12+3
+  email_validator: 1.0.0
+  date_range_picker: 1.0.5
+  syncfusion_flutter_charts: 18.1.48
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -45,6 +48,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - splash_screen.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

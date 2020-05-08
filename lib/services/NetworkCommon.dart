@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:lura_dentist_webapp/services/CognitoUserSingleton.dart';
 
 class NetworkCommon {
   static final NetworkCommon _singleton = new NetworkCommon._internal();
@@ -35,6 +36,7 @@ class NetworkCommon {
     // handle timeouts
     dio.options.connectTimeout = 20000; //5s
     dio.options.receiveTimeout = 20000;
+    dio.options.headers = {"Authorization":"Bearer ${CognitoUserSingleton.instance.token}"};
     return dio;
   }
 }

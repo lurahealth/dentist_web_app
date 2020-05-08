@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/screens/GraphScreen.dart';
+import 'package:lura_dentist_webapp/screens/LoginScreen.dart';
+import 'package:lura_dentist_webapp/screens/MainUIScreen.dart';
+import 'package:lura_dentist_webapp/screens/NewPatinetDialog.dart';
+import 'package:lura_dentist_webapp/screens/PatientsListScreen.dart';
 
 import 'StringUtils.dart';
 
@@ -8,8 +12,14 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
+      case LOGIN_SCREEN:
+        return MaterialPageRoute(builder: (_) => LoginScreen());
+      case MAIN_UI_SCREEN:
+        return MaterialPageRoute(builder: (_) => MainUIScreen());
+      case PATIENT_LIST_SCREEN:
+        return MaterialPageRoute(builder: (_) => PatientsListScreen());
       case GRAPH_SCREEN:
-        return MaterialPageRoute(builder: (_) => GraphScreen());
+        return MaterialPageRoute(builder: (_) => GraphScreen(args));
       default:
         return _errorRoute();
     }
