@@ -31,6 +31,11 @@ class GraphDataProvider with ChangeNotifier{
     if(!dataLoaded){
       dataLoaded = true;
 
+      if(!loadingData){
+        loadingData = true;
+        notifyListeners();
+      }
+
       getPastSensorReadings(
           currentPatient.patientEmail, sensorDataFromDate, sensorDataToDate)
           .then(getDataSuccess, onError: getDataFailed);
@@ -43,7 +48,9 @@ class GraphDataProvider with ChangeNotifier{
     GetSensorDataResponseModel response = GetSensorDataResponseModel.fromJson(result);
     SensorDataResponseMessageModel responseMessage = response.responseMessageModel;
     pHData = responseMessage.rows;
-    splitDataIntoSegments(dataPointsPerSegment);
+    if(pHData.length > 0) {
+      splitDataIntoSegments(dataPointsPerSegment);
+    }
     loadingData = false;
     print("Row count: ${pHData.length}");
     notifyListeners();
@@ -85,7 +92,7 @@ class GraphDataProvider with ChangeNotifier{
   }
 
   void lastWeeksData(){
-    if(currentSegment >= 0){
+    if(currentSegment > 0){
       currentSegment = currentSegment -1;
       notifyListeners();
     }
@@ -104,5 +111,12 @@ class GraphDataProvider with ChangeNotifier{
     error = true;
     errorMessage = error.toString();
     notifyListeners();
+  }
+
+  void clearDates() {
+    sensorDataFromDate = null;
+    sensorDataToDate = null;
+    dataLoaded = false;
+    getData();
   }
 }

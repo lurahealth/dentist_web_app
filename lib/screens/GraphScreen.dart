@@ -7,6 +7,7 @@ import 'package:lura_dentist_webapp/utils/StyleUtils.dart';
 import 'package:lura_dentist_webapp/widgets/LoadingWidget.dart';
 import 'package:lura_dentist_webapp/widgets/PHGraph.dart';
 import 'package:provider/provider.dart';
+import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 
 class GraphScreen extends StatelessWidget {
   final PatientModel currentPatient;
@@ -45,7 +46,9 @@ class GraphWidget extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(dateDisplayFormat.format(currentSegment.startDate),style: TextStyle(fontSize: 30)),
+          child: (currentSegment.startDate != null)?
+                 Text(dateDisplayFormat.format(currentSegment.startDate),style: TextStyle(fontSize: 30))
+                 : Text(""),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -53,7 +56,9 @@ class GraphWidget extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(dateDisplayFormat.format(currentSegment.endDate), style: TextStyle(fontSize: 30)),
+          child: (currentSegment.endDate != null)?
+          Text(dateDisplayFormat.format(currentSegment.endDate), style: TextStyle(fontSize: 30))
+          : Text(""),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -114,7 +119,10 @@ class GraphWidget extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            segmentSelection,
+                            Visibility(
+                              visible: provider.displaySegments.length > 2,
+                                child: segmentSelection
+                            ),
                             Expanded(child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: PHGraph(),
@@ -124,7 +132,44 @@ class GraphWidget extends StatelessWidget {
                                 dataCard("Highest pH", currentSegment.maxPh,width *0.15,height*0.15),
                                 dataCard("Lowest pH", currentSegment.minPh,width *0.15,height*0.15),
                                 dataCard("# Time pH above 7", 10,width *0.15,height*0.15),
-                                dataCard("# Time pH below 4", 14,width *0.15,height*0.15),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () => Navigator.pop(context),
+                                    child: Card(
+                                      child: Container(
+                                        width: width *0.15,
+                                        height: height*0.15,
+                                        child: Column(
+                                          children: <Widget>[
+                                            MaterialButton(
+                                                onPressed: () async {
+                                                  final List<DateTime> picked = await DateRagePicker.showDatePicker(
+                                                      context: context,
+                                                      initialFirstDate: new DateTime.now(),
+                                                      initialLastDate: (new DateTime.now()).add(new Duration(days: 7)),
+                                                      firstDate: new DateTime(2015),
+                                                      lastDate: new DateTime(2025)
+                                                  );
+                                                  if (picked != null && picked.length == 2) {
+                                                    provider.sensorDataFromDate = picked[0];
+                                                    provider.sensorDataToDate = picked[1];
+                                                    provider.dataLoaded = false;
+                                                    provider.getData();
+                                                  }
+                                                },
+                                                child: new Text("Pick date range")
+                                            ),
+                                            MaterialButton(
+                                                onPressed: provider.clearDates,
+                                                child: new Text("Clear Dates")
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
                               ],
                             )
                           ],
