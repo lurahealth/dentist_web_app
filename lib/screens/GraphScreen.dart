@@ -27,7 +27,7 @@ class GraphWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GraphDataProvider provider = Provider.of<GraphDataProvider>(context);
-    provider.getData();
+    provider.getSensorDataFromCloud();
 
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -42,7 +42,7 @@ class GraphWidget extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: IconButton(icon: Icon(Icons.arrow_back, color: LURA_ORANGE,), onPressed: provider.lastWeeksData),
+          child: IconButton(icon: Icon(Icons.arrow_back, color: LURA_ORANGE,), onPressed: provider.showLastWeeksData),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -62,7 +62,7 @@ class GraphWidget extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: IconButton(icon: Icon(Icons.arrow_forward, color: LURA_ORANGE, ), onPressed: provider.nextWeeksData),
+          child: IconButton(icon: Icon(Icons.arrow_forward, color: LURA_ORANGE, ), onPressed: provider.showNextWeeksData),
         ),
       ],
     );
@@ -109,8 +109,8 @@ class GraphWidget extends StatelessWidget {
                           dataCard("Average pH", currentSegment.averagePh,width * 0.5,height * 0.13),
                           dataCard("Highest pH", currentSegment.maxPh,width * 0.5,height * 0.13),
                           dataCard("Lowest pH", currentSegment.minPh,width * 0.5,height * 0.13),
-                          dataCard("# Time pH above 7", 10,width * 0.5,height * 0.13),
-                          dataCard("# Time pH below 4", 14,width * 0.5,height * 0.13),
+                          dataCard("# Time pH above 7", currentSegment.timesOver,width * 0.5,height * 0.13),
+                          dataCard("# Time pH below 4", currentSegment.timesOver,width * 0.5,height * 0.13),
                         ],
                       ),
                     ),
@@ -131,7 +131,7 @@ class GraphWidget extends StatelessWidget {
                               children: <Widget>[
                                 dataCard("Highest pH", currentSegment.maxPh,width *0.15,height*0.15),
                                 dataCard("Lowest pH", currentSegment.minPh,width *0.15,height*0.15),
-                                dataCard("# Time pH above 7", 10,width *0.15,height*0.15),
+                                dataCard("# Time pH above 7", currentSegment.timesOver,width *0.15,height*0.15),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
@@ -141,6 +141,7 @@ class GraphWidget extends StatelessWidget {
                                         width: width *0.15,
                                         height: height*0.15,
                                         child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center ,
                                           children: <Widget>[
                                             MaterialButton(
                                                 onPressed: () async {
@@ -155,7 +156,7 @@ class GraphWidget extends StatelessWidget {
                                                     provider.sensorDataFromDate = picked[0];
                                                     provider.sensorDataToDate = picked[1];
                                                     provider.dataLoaded = false;
-                                                    provider.getData();
+                                                    provider.getSensorDataFromCloud();
                                                   }
                                                 },
                                                 child: new Text("Pick date range")
