@@ -20,8 +20,8 @@ class GraphDataProvider with ChangeNotifier{
   int currentSegment = 0;
   int animationDuration = 500;
   int dataPointsPerSegment = 100;
-  int timesOverValue = 7;
-  int timesUnderValue = 4;
+  double timesOverValue = 5.5;
+  double timesUnderValue = 5.5;
 
   bool error = false;
   String errorMessage = "";
@@ -62,7 +62,7 @@ class GraphDataProvider with ChangeNotifier{
     int rowCount = pHData.length;
     int numberOfSegments = (rowCount/segmentCount).ceil();
     for(int i =1;i<= numberOfSegments;i++){
-      print("Segment count $i");
+      //print("Segment count $i");
       int startRange = (i-1) * segmentCount;
       int endRange = i * segmentCount;
       if(endRange > pHData.length){
@@ -73,7 +73,7 @@ class GraphDataProvider with ChangeNotifier{
   }
 
   void setDataSegment(List<ChartData> segment){
-    print("Segment count ${segment.length}");
+    //print("Segment count ${segment.length}");
 
     List<num> phValues = segment.map((dataPoint) => dataPoint.dataReading).toList();
     int timesOver = 0;
@@ -81,8 +81,9 @@ class GraphDataProvider with ChangeNotifier{
     phValues.forEach((value) {
       if (value > timesOverValue) {
         timesOver++;
-      } else if (value < timesUnderValue) {
-        timesUnder--;
+      } else if (value <= timesUnderValue) {
+        timesUnder++;
+        print("value: $value, timesUnder: $timesUnder");
       }
     });
 
