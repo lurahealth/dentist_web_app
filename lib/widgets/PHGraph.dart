@@ -26,14 +26,27 @@ class PHGraph extends StatelessWidget {
             labelStyle: ChartTextStyle(color: Colors.white),
             majorGridLines: MajorGridLines(color: LURA_BLUE)),
         primaryYAxis: NumericAxis(
-          majorGridLines: MajorGridLines(color: LURA_BLUE),
+          majorGridLines: MajorGridLines(
+              //color: LURA_BLUE,
+              color: LURA_DARK_BLUE,
+              width: 0.5
+          ),
+          plotBands: <PlotBand>[
+            PlotBand(
+              isVisible: true,
+              start: 5.49,
+              end: 5.51,
+              color: Colors.red[700],
+            )
+          ],
           labelStyle: ChartTextStyle(color: Colors.white),
-          axisLine: AxisLine(color: LURA_BLUE),
+          axisLine: AxisLine(color: LURA_DARK_BLUE),
+          minimum: 2.0,
         ),
         crosshairBehavior: CrosshairBehavior(
-          lineColor: Colors.white,
-          enable: true,
-          activationMode: ActivationMode.singleTap,
+          lineColor: Colors.grey,
+          enable: false,
+          activationMode: ActivationMode.doubleTap,
         ),
         tooltipBehavior: TooltipBehavior(
           enable: true,
@@ -41,9 +54,18 @@ class PHGraph extends StatelessWidget {
         ),
         series: <ChartSeries>[
           getSplineChartDate(
-              provider.displaySegments[provider.currentSegment].chartData, Colors.white, 500), // half a second animation
+              provider.displaySegments[provider.currentSegment].chartData, Colors.white, 500 // half a second animation
+          ),
+
         ],
         selectionType: SelectionType.point,
+
+        // Zooming
+        zoomPanBehavior: ZoomPanBehavior (
+          enableMouseWheelZooming: true,
+          enablePanning: true,
+          zoomMode: ZoomMode.x
+        ),
       ),
     );
   }

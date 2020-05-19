@@ -131,7 +131,7 @@ class GraphWidget extends StatelessWidget {
                               children: <Widget>[
                                 dataCard("Highest pH", currentSegment.maxPh,width *0.15,height*0.15),
                                 dataCard("Lowest pH", currentSegment.minPh,width *0.15,height*0.15),
-                                dataCard("# Time pH above 7", currentSegment.timesOver,width *0.15,height*0.15),
+                                dataCard("# Time pH below 5.5", currentSegment.timesUnder,width *0.15,height*0.15),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
@@ -152,9 +152,9 @@ class GraphWidget extends StatelessWidget {
                                                       firstDate: new DateTime(2015),
                                                       lastDate: new DateTime(2025)
                                                   );
-                                                  if (picked != null && picked.length == 2) {
+                                                  if (true/*picked != null*/ /*&& picked.length == 2*/) {
                                                     provider.sensorDataFromDate = picked[0];
-                                                    provider.sensorDataToDate = picked[1];
+                                                    provider.sensorDataToDate = picked[picked.length - 1];
                                                     provider.dataLoaded = false;
                                                     provider.getSensorDataFromCloud();
                                                   }

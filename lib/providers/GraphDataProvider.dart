@@ -19,7 +19,10 @@ class GraphDataProvider with ChangeNotifier{
   List<DisplayDataModel> displaySegments = [];
   int currentSegment = 0;
   int animationDuration = 500;
-  int dataPointsPerSegment = 100;
+  // Seems like for the pseudo-generated demo data, 98 is the right amount of
+  // data points per segment for "one day". Should be 96. One week is 686 for
+  // psuedo-generated data, but should be 672 irl
+  int dataPointsPerSegment = 686;
   double timesOverValue = 5.5;
   double timesUnderValue = 5.5;
 
@@ -28,6 +31,7 @@ class GraphDataProvider with ChangeNotifier{
 
   bool dataLoaded = false;
   bool loadingData = true;
+  bool showCustomDateRange = false;
 
   void getSensorDataFromCloud(){
     if(!dataLoaded){
@@ -37,6 +41,11 @@ class GraphDataProvider with ChangeNotifier{
         loadingData = true;
         notifyListeners();
       }
+
+      /*
+       * Tried to clear past dates and show only new ones, did not work
+       */
+      // showCustomDateRange = true;
 
       getPastSensorReadings(
           currentPatient.patientEmail, sensorDataFromDate, sensorDataToDate)
@@ -102,7 +111,14 @@ class GraphDataProvider with ChangeNotifier{
       timesUnder: timesUnder
     );
 
-    displaySegments.add(dataModel);
+    if (showCustomDateRange == true) {
+      showCustomDateRange = false;
+      displaySegments.clear();
+      displaySegments.add(dataModel);
+    }
+    else {
+      displaySegments.add(dataModel);
+    }
   }
 
   void showLastWeeksData(){
