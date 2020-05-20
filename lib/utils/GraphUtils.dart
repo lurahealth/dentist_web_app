@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lura_dentist_webapp/models/AreaChartData.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-SplineSeries<ChartData, DateTime> getSplineChartDate(
+FastLineSeries<ChartData, DateTime> getSplineChartDate(
     List<ChartData> splineData, Color color, double animationDuration) {
-  return SplineSeries<ChartData, DateTime>(
+  return FastLineSeries<ChartData, DateTime>(
       name: "pH",
       dataSource: splineData,
       color: color,

@@ -4,9 +4,9 @@ class DisplayDataModel{
   DateTime startDate;
   DateTime endDate;
   List<ChartData> chartData;
-  int minPh;
-  int maxPh;
-  int averagePh;
+  double minPh;
+  double maxPh;
+  double averagePh;
   int timesOver;
   int timesUnder;
   double percentTimeUnder;

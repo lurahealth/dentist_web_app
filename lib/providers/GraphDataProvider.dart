@@ -29,6 +29,7 @@ class GraphDataProvider with ChangeNotifier{
   bool error = false;
   String errorMessage = "";
 
+  bool clearDatesSelected = false;
   bool dataLoaded = false;
   bool loadingData = true;
   bool showCustomDateRange = false;
@@ -42,11 +43,6 @@ class GraphDataProvider with ChangeNotifier{
         notifyListeners();
       }
 
-      /*
-       * Tried to clear past dates and show only new ones, did not work
-       */
-      // showCustomDateRange = true;
-
       getPastSensorReadings(
           currentPatient.patientEmail, sensorDataFromDate, sensorDataToDate)
           .then(getDataSuccess, onError: getDataFailed);
@@ -59,8 +55,17 @@ class GraphDataProvider with ChangeNotifier{
     GetSensorDataResponseModel response = GetSensorDataResponseModel.fromJson(result);
     SensorDataResponseMessageModel responseMessage = response.responseMessageModel;
     pHData = responseMessage.rows;
-    if(pHData.length > 0) {
+    if(pHData.length > 0 && showCustomDateRange == false) {
       splitDataIntoSegments(dataPointsPerSegment);
+    }
+    // Match number of data points to custom date range, to fit one segment
+    else if (pHData.length > 0 && showCustomDateRange == true) {
+      int customDataPoints = ((sensorDataToDate.millisecondsSinceEpoch
+                                - sensorDataFromDate.millisecondsSinceEpoch)
+                                  / 1000).round();
+      // Divide by 900 because 900 seconds = 1 data point
+      customDataPoints = (customDataPoints / 900).round();
+      splitDataIntoSegments(customDataPoints);
     }
     loadingData = false;
     print("Row count: ${pHData.length}");
@@ -69,9 +74,14 @@ class GraphDataProvider with ChangeNotifier{
 
   void splitDataIntoSegments(int segmentCount){
     int rowCount = pHData.length;
-    int numberOfSegments = (rowCount/segmentCount).ceil();
+    int numberOfSegments = 0;
+    if (!showCustomDateRange) {
+      numberOfSegments = (rowCount / segmentCount).ceil();
+    } else {
+      numberOfSegments = 1;
+    }
     for(int i =1;i<= numberOfSegments;i++){
-      //print("Segment count $i");
+      print("Segment count $i");
       int startRange = (i-1) * segmentCount;
       int endRange = i * segmentCount;
       if(endRange > pHData.length){
@@ -82,7 +92,6 @@ class GraphDataProvider with ChangeNotifier{
   }
 
   void setDataSegment(List<ChartData> segment){
-    //print("Segment count ${segment.length}");
 
     List<num> phValues = segment.map((dataPoint) => dataPoint.dataReading).toList();
     int timesOver = 0;
@@ -93,17 +102,18 @@ class GraphDataProvider with ChangeNotifier{
     phValues.forEach((value) {
       if (value > timesOverValue) {
         timesOver++;
+        if (value > 8) {
+        }
       } else if (value <= timesUnderValue) {
         timesUnder++;
-        //print("value: $value, timesUnder: $timesUnder");
       }
     });
 
     percentTimeUnder = roundDouble((timesUnder / (timesUnder +  timesOver) * 100), 1);
     percentTimeOver = roundDouble((timesOver / (timesUnder +  timesOver) * 100), 1);
-    int average = ((phValues.reduce((first, next) => first+next))/(segment.length)).round();
-    int minPh = phValues.reduce(min).round();
-    int maxPh = phValues.reduce(max).round();
+    double average = roundDouble(((phValues.reduce((first, next) => first+next))/(segment.length)), 1);
+    double minPh = phValues.reduce(min);
+    double maxPh = phValues.reduce(max);
 
     DisplayDataModel dataModel = DisplayDataModel(
       startDate: segment.first.timeStamp,
@@ -119,11 +129,17 @@ class GraphDataProvider with ChangeNotifier{
     );
 
     if (showCustomDateRange == true) {
-      showCustomDateRange = false;
-      displaySegments.clear();
-      displaySegments.add(dataModel);
+        // do something
+        showCustomDateRange = false;
+        currentSegment = 0;
+        displaySegments.clear();
+        displaySegments.add(dataModel);
     }
     else {
+      if (clearDatesSelected == true) {
+        displaySegments.clear();
+        clearDatesSelected = false;
+      }
       displaySegments.add(dataModel);
     }
   }
@@ -154,6 +170,7 @@ class GraphDataProvider with ChangeNotifier{
     sensorDataFromDate = null;
     sensorDataToDate = null;
     dataLoaded = false;
+    clearDatesSelected = true;
     getSensorDataFromCloud();
   }
 

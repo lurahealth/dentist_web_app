@@ -155,6 +155,7 @@ class GraphWidget extends StatelessWidget {
                                                     provider.sensorDataFromDate = picked[0];
                                                     provider.sensorDataToDate = picked[picked.length - 1];
                                                     provider.dataLoaded = false;
+                                                    provider.showCustomDateRange = true;
                                                     provider.getSensorDataFromCloud();
                                                   }
                                                 },

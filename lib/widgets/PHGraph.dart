@@ -54,7 +54,7 @@ class PHGraph extends StatelessWidget {
         ),
         series: <ChartSeries>[
           getSplineChartDate(
-              provider.displaySegments[provider.currentSegment].chartData, Colors.white, 500 // half a second animation
+              provider.displaySegments[provider.currentSegment].chartData, Colors.white, 200 // half a second animation
           ),
 
         ],
