@@ -9,9 +9,12 @@ class DisplayDataModel{
   int averagePh;
   int timesOver;
   int timesUnder;
+  double percentTimeUnder;
+  double percentTimeOver;
 
   DisplayDataModel({this.startDate, this.endDate, this.chartData, this.minPh,
-      this.maxPh, this.averagePh, this.timesOver, this.timesUnder});
+      this.maxPh, this.averagePh, this.timesOver, this.timesUnder,
+      this.percentTimeUnder, this.percentTimeOver});
 
 
 }

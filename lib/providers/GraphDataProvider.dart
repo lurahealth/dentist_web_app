@@ -18,7 +18,7 @@ class GraphDataProvider with ChangeNotifier{
   List<ChartData> pHData = <ChartData>[];
   List<DisplayDataModel> displaySegments = [];
   int currentSegment = 0;
-  int animationDuration = 500;
+  int animationDuration = 300;
   // Seems like for the pseudo-generated demo data, 98 is the right amount of
   // data points per segment for "one day". Should be 96. One week is 686 for
   // psuedo-generated data, but should be 672 irl
@@ -87,15 +87,20 @@ class GraphDataProvider with ChangeNotifier{
     List<num> phValues = segment.map((dataPoint) => dataPoint.dataReading).toList();
     int timesOver = 0;
     int timesUnder = 0;
+    double percentTimeUnder = 0;
+    double percentTimeOver = 0;
+
     phValues.forEach((value) {
       if (value > timesOverValue) {
         timesOver++;
       } else if (value <= timesUnderValue) {
         timesUnder++;
-        print("value: $value, timesUnder: $timesUnder");
+        //print("value: $value, timesUnder: $timesUnder");
       }
     });
 
+    percentTimeUnder = roundDouble((timesUnder / (timesUnder +  timesOver) * 100), 1);
+    percentTimeOver = roundDouble((timesOver / (timesUnder +  timesOver) * 100), 1);
     int average = ((phValues.reduce((first, next) => first+next))/(segment.length)).round();
     int minPh = phValues.reduce(min).round();
     int maxPh = phValues.reduce(max).round();
@@ -108,7 +113,9 @@ class GraphDataProvider with ChangeNotifier{
       minPh: minPh,
       averagePh: average,
       timesOver: timesOver,
-      timesUnder: timesUnder
+      timesUnder: timesUnder,
+      percentTimeUnder: percentTimeUnder,
+      percentTimeOver: percentTimeOver
     );
 
     if (showCustomDateRange == true) {
@@ -148,5 +155,10 @@ class GraphDataProvider with ChangeNotifier{
     sensorDataToDate = null;
     dataLoaded = false;
     getSensorDataFromCloud();
+  }
+
+  double roundDouble(double value, int places) {
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
   }
 }
