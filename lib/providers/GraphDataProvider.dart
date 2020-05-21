@@ -65,7 +65,6 @@ class GraphDataProvider with ChangeNotifier{
                                   / 1000).round();
       // Divide by 900 because 900 seconds = 1 data point
       customDataPoints = (customDataPoints / 900).round();
-      print("Custom data points: $customDataPoints");
       splitDataIntoSegments(customDataPoints);
     }
     loadingData = false;
@@ -82,7 +81,6 @@ class GraphDataProvider with ChangeNotifier{
       numberOfSegments = 1;
     }
     for(int i =1;i<= numberOfSegments;i++){
-      print("Segment count $i");
       int startRange = (i-1) * segmentCount;
       int endRange = i * segmentCount;
       if(endRange >= pHData.length){
@@ -110,16 +108,13 @@ class GraphDataProvider with ChangeNotifier{
       }
     });
 
-    segment.forEach((element) {
-      print("timestamp: ${element.timeStamp}");
-    });
-
     percentTimeUnder = roundDouble((timesUnder / (timesUnder +  timesOver) * 100), 1);
     percentTimeOver = roundDouble((timesOver / (timesUnder +  timesOver) * 100), 1);
     double average = roundDouble(((phValues.reduce((first, next) => first+next))/(segment.length)), 1);
     double minPh = phValues.reduce(min);
     double maxPh = phValues.reduce(max);
 
+    // Sort to ensure data is ordered properly, remove after fixing DB query
     if (showCustomDateRange == true) {
       segment.sort((a,b) => a.timeStamp.compareTo(b.timeStamp));
     }
