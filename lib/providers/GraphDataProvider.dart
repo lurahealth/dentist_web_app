@@ -65,6 +65,7 @@ class GraphDataProvider with ChangeNotifier{
                                   / 1000).round();
       // Divide by 900 because 900 seconds = 1 data point
       customDataPoints = (customDataPoints / 900).round();
+      print("Custom data points: $customDataPoints");
       splitDataIntoSegments(customDataPoints);
     }
     loadingData = false;
@@ -84,7 +85,7 @@ class GraphDataProvider with ChangeNotifier{
       print("Segment count $i");
       int startRange = (i-1) * segmentCount;
       int endRange = i * segmentCount;
-      if(endRange > pHData.length){
+      if(endRange >= pHData.length){
         endRange = pHData.length -1;
       }
       setDataSegment(pHData.getRange(startRange, endRange).toList());
@@ -109,11 +110,19 @@ class GraphDataProvider with ChangeNotifier{
       }
     });
 
+    segment.forEach((element) {
+      print("timestamp: ${element.timeStamp}");
+    });
+
     percentTimeUnder = roundDouble((timesUnder / (timesUnder +  timesOver) * 100), 1);
     percentTimeOver = roundDouble((timesOver / (timesUnder +  timesOver) * 100), 1);
     double average = roundDouble(((phValues.reduce((first, next) => first+next))/(segment.length)), 1);
     double minPh = phValues.reduce(min);
     double maxPh = phValues.reduce(max);
+
+    if (showCustomDateRange == true) {
+      segment.sort((a,b) => a.timeStamp.compareTo(b.timeStamp));
+    }
 
     DisplayDataModel dataModel = DisplayDataModel(
       startDate: segment.first.timeStamp,
@@ -128,11 +137,13 @@ class GraphDataProvider with ChangeNotifier{
       percentTimeOver: percentTimeOver
     );
 
+    // Needed to reset segments and display custom date range in one segment
     if (showCustomDateRange == true) {
-        // do something
         showCustomDateRange = false;
         currentSegment = 0;
         displaySegments.clear();
+        print("First timestamp: ${segment.first.timeStamp}");
+        print("Last timestamp: ${segment.last.timeStamp}");
         displaySegments.add(dataModel);
     }
     else {

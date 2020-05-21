@@ -41,27 +41,27 @@ class GraphWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: IconButton(icon: Icon(Icons.arrow_back, color: LURA_ORANGE,), onPressed: provider.showLastWeeksData),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: (currentSegment.startDate != null)?
                  Text(dateDisplayFormat.format(currentSegment.startDate),style: TextStyle(fontSize: 30))
                  : Text(""),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: Text("to",style: TextStyle(fontSize: 30)),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: (currentSegment.endDate != null)?
           Text(dateDisplayFormat.format(currentSegment.endDate), style: TextStyle(fontSize: 30))
           : Text(""),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: IconButton(icon: Icon(Icons.arrow_forward, color: LURA_ORANGE, ), onPressed: provider.showNextWeeksData),
         ),
       ],
@@ -119,7 +119,7 @@ class GraphWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Visibility(
-                              visible: provider.displaySegments.length > 2,
+                              visible: provider.displaySegments.length > 0,
                                 child: segmentSelection
                             ),
                             Expanded(child: Padding(
@@ -151,7 +151,9 @@ class GraphWidget extends StatelessWidget {
                                                       firstDate: new DateTime(2015),
                                                       lastDate: new DateTime(2025)
                                                   );
-                                                  if (picked != null && picked.length == 2) {
+                                                  if (picked != null /*&& picked.length == 2*/) {
+                                                    print("picked length: ${picked.length}");
+                                                    print("picked[0] : ${picked[0]}, picked to date: ${picked[picked.length - 1]}");
                                                     provider.sensorDataFromDate = picked[0];
                                                     provider.sensorDataToDate = picked[picked.length - 1];
                                                     provider.dataLoaded = false;
