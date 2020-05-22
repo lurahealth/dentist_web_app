@@ -8,8 +8,11 @@ SplineSeries<ChartData, DateTime> getSplineChartDate(
       name: "pH",
       dataSource: splineData,
       color: color,
+      splineType: SplineType.monotonic,
       xValueMapper: (ChartData data, _) => data.timeStamp,
       yValueMapper: (ChartData data, _) => data.dataReading,
       animationDuration: animationDuration,
-      width: 5);
+      width: 3
+  );
 }
+

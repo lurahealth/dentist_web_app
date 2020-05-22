@@ -54,7 +54,7 @@ class StatsWidget extends StatelessWidget {
         children: <Widget>[
           Text(text),
           SizedBox(width: 20,),
-          Text(values.toString())
+          Text(values.toStringAsFixed(3))
         ],
       ),
     );

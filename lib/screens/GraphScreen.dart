@@ -41,27 +41,27 @@ class GraphWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: IconButton(icon: Icon(Icons.arrow_back, color: LURA_ORANGE,), onPressed: provider.showLastWeeksData),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: (currentSegment.startDate != null)?
                  Text(dateDisplayFormat.format(currentSegment.startDate),style: TextStyle(fontSize: 30))
                  : Text(""),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: Text("to",style: TextStyle(fontSize: 30)),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: (currentSegment.endDate != null)?
           Text(dateDisplayFormat.format(currentSegment.endDate), style: TextStyle(fontSize: 30))
           : Text(""),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: IconButton(icon: Icon(Icons.arrow_forward, color: LURA_ORANGE, ), onPressed: provider.showNextWeeksData),
         ),
       ],
@@ -106,11 +106,10 @@ class GraphWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                          dataCard("Average pH", currentSegment.averagePh,width * 0.5,height * 0.13),
-                          dataCard("Highest pH", currentSegment.maxPh,width * 0.5,height * 0.13),
-                          dataCard("Lowest pH", currentSegment.minPh,width * 0.5,height * 0.13),
-                          dataCard("# Time pH above 7", currentSegment.timesOver,width * 0.5,height * 0.13),
-                          dataCard("# Time pH below 4", currentSegment.timesOver,width * 0.5,height * 0.13),
+                          dataCard("# Times pH above 5.5", currentSegment.timesOver,width * 0.5,height * 0.135),
+                          dataCard("# Times pH below 5.5", currentSegment.timesUnder,width * 0.5,height * 0.135),
+                          dataCard("% Time pH above 5.5", currentSegment.percentTimeOver, width *0.5,height*0.135),
+                          dataCard("% Time pH below 5.5", currentSegment.percentTimeUnder, width *0.5,height*0.135),
                         ],
                       ),
                     ),
@@ -120,7 +119,7 @@ class GraphWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Visibility(
-                              visible: provider.displaySegments.length > 2,
+                              visible: provider.displaySegments.length > 0,
                                 child: segmentSelection
                             ),
                             Expanded(child: Padding(
@@ -129,9 +128,9 @@ class GraphWidget extends StatelessWidget {
                             )),
                             Row(
                               children: <Widget>[
-                                dataCard("Highest pH", currentSegment.maxPh,width *0.15,height*0.15),
-                                dataCard("Lowest pH", currentSegment.minPh,width *0.15,height*0.15),
-                                dataCard("# Time pH above 7", currentSegment.timesOver,width *0.15,height*0.15),
+                                dataCard("Average pH", currentSegment.averagePh,width * 0.195,height * 0.13),
+                                dataCard("Highest pH", currentSegment.maxPh,width * 0.195,height * 0.13),
+                                dataCard("Lowest pH", currentSegment.minPh,width * 0.195,height * 0.13),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
@@ -139,7 +138,7 @@ class GraphWidget extends StatelessWidget {
                                     child: Card(
                                       child: Container(
                                         width: width *0.15,
-                                        height: height*0.15,
+                                        height: height*0.13,
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center ,
                                           children: <Widget>[
@@ -152,10 +151,13 @@ class GraphWidget extends StatelessWidget {
                                                       firstDate: new DateTime(2015),
                                                       lastDate: new DateTime(2025)
                                                   );
-                                                  if (picked != null && picked.length == 2) {
+                                                  if (picked != null /*&& picked.length == 2*/) {
+                                                    print("picked length: ${picked.length}");
+                                                    print("picked[0] : ${picked[0]}, picked to date: ${picked[picked.length - 1]}");
                                                     provider.sensorDataFromDate = picked[0];
-                                                    provider.sensorDataToDate = picked[1];
+                                                    provider.sensorDataToDate = picked[picked.length - 1];
                                                     provider.dataLoaded = false;
+                                                    provider.showCustomDateRange = true;
                                                     provider.getSensorDataFromCloud();
                                                   }
                                                 },
@@ -186,7 +188,7 @@ class GraphWidget extends StatelessWidget {
   }
 
 
-  Widget dataCard(String text, int number, double width, double height) {
+  Widget dataCard(String text, num number, double width, double height) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Card(

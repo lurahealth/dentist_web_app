@@ -71,7 +71,7 @@ class NewPatientDialog extends StatelessWidget {
         child: Visibility(
           visible: (!provider.loading && !provider.patientCreated),
           child: Center(
-            child: Text("Register new patinet", style: LURA_BLUE_TEXT,),
+            child: Text("Register new patient", style: LURA_BLUE_TEXT,),
           ),
         ),
       ),
