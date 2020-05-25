@@ -24,21 +24,25 @@ class PHGraph extends StatelessWidget {
         primaryXAxis: DateTimeAxis(
             axisLine: AxisLine(color: LURA_BLUE),
             labelStyle: ChartTextStyle(color: Colors.white),
-            majorGridLines: MajorGridLines(color: LURA_BLUE)),
+            majorGridLines: MajorGridLines(
+                color: LURA_DARK_BLUE,
+                width: 0.5),
+        ),
         primaryYAxis: NumericAxis(
           majorGridLines: MajorGridLines(
               //color: LURA_BLUE,
               color: LURA_DARK_BLUE,
               width: 0.5
           ),
-          plotBands: <PlotBand>[
-            PlotBand(
-              isVisible: true,
-              start: 5.49,
-              end: 5.51,
-              color: Colors.red[700],
-            )
-          ],
+
+//          plotBands: <PlotBand>[
+//            PlotBand(
+//              isVisible: true,
+//              start: 5.49,
+//              end: 5.51,
+//              color: Colors.red[700],
+//            )
+//          ],
           labelStyle: ChartTextStyle(color: Colors.white),
           axisLine: AxisLine(color: LURA_DARK_BLUE),
           minimum: 2.0,
@@ -53,8 +57,11 @@ class PHGraph extends StatelessWidget {
 
         ),
         series: <ChartSeries>[
-          getSplineChartDate(
-              provider.displaySegments[provider.currentSegment].chartData, Colors.white, 200 // half a second animation
+          getHealthyData(
+              provider.displaySegments[provider.currentSegment].chartData, Colors.white, 100
+          ),
+          getUnhealthyData(
+              provider.displaySegments[provider.currentSegment].chartData, LURA_ORANGE, 100
           ),
 
         ],
