@@ -49,6 +49,78 @@ class GraphWidget extends StatelessWidget {
       ),
     );
 
+    final noDataMessage = Align(
+      alignment: Alignment.center,
+      child: Material(
+          borderRadius: BorderRadius.circular(16),
+          elevation: 10,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("No data for ${provider.currentPatient.patientName} yet"),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        color: LURA_BLUE,
+                        onPressed: () => Navigator.pop(context),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Back to patients",
+                              style: WHITE_TEXT,
+                            ),
+                          ],
+                        )),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        color: LURA_BLUE,
+                        onPressed: () {
+                          provider.dataLoaded = false;
+                          provider.getSensorDataFromCloud();
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.refresh,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Refresh data",
+                              style: WHITE_TEXT,
+                            ),
+                          ],
+                        )),
+                  ],
+                )
+              ],
+            ),
+          )),
+    );
+
     final segmentSelection = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -99,14 +171,17 @@ class GraphWidget extends StatelessWidget {
             child: LoadingWidget("Loading data!", LURA_BLUE),
           ),
           Visibility(
-            visible: !provider.loadingData,
+            visible: !provider.loadingData && provider.pHData.length > 0,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: refreshDataButton,
             ),
           ),
           Visibility(
-              visible: !provider.loadingData,
+              visible: !provider.loadingData && provider.pHData.length == 0,
+              child: Center(child: noDataMessage)),
+          Visibility(
+              visible: !provider.loadingData && provider.pHData.length > 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
