@@ -154,8 +154,8 @@ class GraphWidget extends StatelessWidget {
                                                   if (picked != null /*&& picked.length == 2*/) {
                                                     print("picked length: ${picked.length}");
                                                     print("picked[0] : ${picked[0]}, picked to date: ${picked[picked.length - 1]}");
-                                                    provider.sensorDataFromDate = picked[0];
-                                                    provider.sensorDataToDate = picked[picked.length - 1];
+                                                    provider.sensorDataFromDate = picked[0].toUtc(); // data saved in DB as UTC
+                                                    provider.sensorDataToDate = picked[picked.length - 1].toUtc(); // data saved in DB as UTC
                                                     provider.dataLoaded = false;
                                                     provider.showCustomDateRange = true;
                                                     provider.getSensorDataFromCloud();
