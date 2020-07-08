@@ -27,9 +27,9 @@ class LoginWidget extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: Colors.lightBlue[50],
       body: Padding(
-        padding: EdgeInsets.only(top: 60.0, bottom: 60.0, left: 120.0, right: 120.0),
+        padding: EdgeInsets.only(top: 50.0, bottom: 50.0, left: 100.0, right: 100.0),
         child: Card(
           shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0)),
           elevation: 5.0,

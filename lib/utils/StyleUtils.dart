@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // colours
-const Color LURA_BLUE = Color(0xFF405280);
-const Color LURA_LIGHT_BLUE = Color(0xFF26afde);
-const Color LURA_DARK_BLUE = Color(0xFF526aa6);
-const Color LURA_ORANGE = Color(0xFFee4221);
+const Color LURA_BLUE         = Color(0xFF405280);
+const Color LURA_LIGHT_BLUE   = Color(0xFF26afde);
+const Color LURA_ACCENT_BLUE  = Color(0xFF68CEEA);
+const Color LURA_MINT_BLUE    =  Color(0xFF98DCD1);
+const Color LURA_DARK_BLUE    = Color(0xFF526aa6);
+const Color LURA_ORANGE       = Color(0xFFee4221);
 const Color LURA_LIGHT_ORANGE = Color(0xFFf35e73);
 
 // TextStyle
