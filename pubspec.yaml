@@ -30,7 +30,7 @@ dependencies:
   amazon_cognito_identity_dart_2: 0.1.12+3
   email_validator: 1.0.0
   date_range_picker: 1.0.5
-  syncfusion_flutter_charts: 18.1.48
+  syncfusion_flutter_charts: 18.3.42
 
 dev_dependencies:
   flutter_test:
